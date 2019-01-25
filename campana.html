@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <header>
+    </header>
+    <div id="ingreso">
+        <div id="aviso" class="validacion"></div>
+        <p>Ingrese clave de Acceso</p><br>
+        <input type="password" id="clave"><br>
+        <button id="boton" onclick="entrar();">ENTRAR</button>
+    </div><br>
+    <div id="opciones">
+        <select id="opcion">
+            <option value = "0">Escoge una opción</option>
+            <option value = "1">Con referencia</option>
+            <option value = "2">Sin referencia</option>
+            <option value = "3">Carga de SAP</option>
+        </select>
+    </div>
+    <div id="conReferencia">
+
+    </div>
+    <div id="carga">
+        <p>Id de reclamo SAP</p><br>
+        <input type="text" id="reclamoSap"><br>
+        <p>Calle</p><br>
+        <input type="text" id="calle"><br>
+        <p>Altura</p><br>
+        <input type="text" id="altura"><br>
+        <span><p>¿Hubo cambio de id?</p></span><br>
+        <select>
+            <option value="SI">SI</option>
+            <option value="NO">NO</option>
+        </select><br>
+        <input type="text" id="idNuevo"><br>
+        <div id="estado">
+            <select id="estado">
+            </select>
+            <select id="accion">
+            </select>
+        </div>
+        <button id="boton" onclick="mostrar();" disabled="true">Botón</button>
+    </div>
+
+</body>
+
+</html>
