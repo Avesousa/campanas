@@ -25,14 +25,13 @@
             <option value = "1">Con referencia</option>
             <option value = "2">Sin referencia</option>
             <option value = "3">Carga de SAP</option>
-        </select>
-    </div>
-    <div id="conReferencia">
-
+        </select><br>
+        <button id="boton2" onclick="validarOpciones();">SIGUIENTE</button>
     </div>
     <div id="carga">
-        <p>Id de reclamo SAP</p><br>
-        <input type="text" id="reclamoSap"><br>
+ 
+        <p id ="nReferencia">Número de referencia</p><br>
+        <input type="text" id="reclamoSap">
         <p>Calle</p><br>
         <input type="text" id="calle"><br>
         <p>Altura</p><br>
@@ -45,8 +44,28 @@
         <input type="text" id="idNuevo"><br>
         <div id="estado">
             <select id="estado">
+                    <option>La campana no está</option>
+                    <option>Quemada</option> 
+                    <option>Volcada</option> 
+                    <option>Rota</option> 
+                    <option>Fuera de posición</option> 
+                    <option>Falta de limpieza</option> 
+                    <option>Sin ploteo</option> 
+                    <option>Sin TAG</option> 
+                    <option>Falla Inexistente</option> 
+                    <option>sin ID</option> 
+                   <option>Planificación</option>    
             </select>
             <select id="accion">
+                    <option>Reposición</option>
+                    <option>Limpieza</option> 
+                    <option>Verificación</option> 
+                    <option>Retiro</option> 
+                    <option>Reparación</option> 
+                    <option>Insalación de TAG</option> 
+                    <option>Reubicación</option> 
+                    <option>Instalación de ID</option> 
+                    <option>Ploteo</option>  
             </select>
         </div>
         <button id="boton" onclick="mostrar();" disabled="true">Botón</button>

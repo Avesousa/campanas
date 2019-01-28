@@ -11,7 +11,8 @@ function clickear() {
 function entrar() {
     var claveR = document.getElementById("clave").value;
     if (claveR == clave) {
-        alert("haz ingresado");
+        document.getElementById("ingreso").style.display ="none";
+        document.getElementById("opciones").style.display = "flex";
     } else {
         validacion(false, "NO HA INGRESADO LA CLAVE CORRECTA", "aviso");
     }
@@ -38,3 +39,16 @@ function validacion(estado, texto, id) {
         id.innerHTML = texto;
     }
 }
+
+function validarOpciones(){
+
+    var opcion = document.getElementById("opcion").value;
+    document.getElementById("opciones").style.display = "none";
+    document.getElementById("carga").style.display = "flex";
+        if(opcion != 3){
+        document.getElementById("nReferencia").style.display = "none";
+        document.getElementById("reclamoSap").style.display = "none";
+        } 
+
+}
+
