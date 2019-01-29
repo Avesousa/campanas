@@ -44,18 +44,22 @@ function validacion(estado, texto, id) {
 
 function validarOpciones() {
     var opcion = document.getElementById("opcion").value;
-
     if (opcion == 1) {
         document.getElementById("casosAbiertos").style.display = "inline";
+        document.getElementById("carga").style.display = "none";
+        document.getElementById("nSap").style.display = "none";
+        document.getElementById("reclamoSap").style.display = "none";
         mostrarReclamosAbiertos();
     } else if (opcion != 3) {
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "none";
         document.getElementById("reclamoSap").style.display = "none";
+        document.getElementById("casosAbiertos").style.display = "none";
     } else {
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "inline";
         document.getElementById("reclamoSap").style.display = "inline";
+        document.getElementById("casosAbiertos").style.display = "none";
 
     }
 } // Hay que modificar esta función para que discrimine entre las tres posibilidades, ya que en la carga con referencia la primer acción es mostrar el resumen de reclamos abiertos
