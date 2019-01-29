@@ -5,11 +5,28 @@
 
 #carga,
 #opciones,
-#conReferencias {
+#conReferencias,
+#casosAbiertos {
     display: none;
+}
+
+.tablaCasos {
+    width: 100%;
+    float: left;
 }
 
 .validacion {
     display: none;
     width: 100%;
+}
+
+.tabla tr {
+    width: 100%;
+}
+
+.tabla th,
+.tabla td {
+    width: 2%;
+    font-size: 15px;
+    border: 1px solid black;
 }
