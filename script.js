@@ -1,5 +1,5 @@
 var clave = "abc123";
-
+var arrayReclamosAbiertos = [];
 function clickear() {
     document.onkeyup = (function(e) {
         if (e.which == 13) {
@@ -40,14 +40,32 @@ function validacion(estado, texto, id) {
     }
 }
 
-function validarOpciones() {
 
+function validarOpciones() {
     var opcion = document.getElementById("opcion").value;
-    document.getElementById("opciones").style.display = "none";
     document.getElementById("carga").style.display = "inline";
     if (opcion != 3) {
-        document.getElementById("nReferencia").style.display = "none";
+        document.getElementById("nSap").style.display = "none";
         document.getElementById("reclamoSap").style.display = "none";
     }
+    else {
+        document.getElementById("nSap").style.display = "inline";
+        document.getElementById("reclamoSap").style.display = "inline";
+
+    }
+}
+
+function mostrarReclamosAbiertos(){
+
+
+google.script.run.withSuccesHandler(function(e){
+ arrayReclamosAbiertos = e;
+ 
+ for(var i;i < e.length; i++){
+ 
+ for(var j; j < e[i].length;j++)
+
+ }
+}).reclamosAbiertos();
 
 }
