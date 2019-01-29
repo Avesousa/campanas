@@ -53,14 +53,14 @@ function validarOpciones() {
         document.getElementById("reclamoSap").style.display = "inline";
 
     }
-}
+} // Hay que modificar esta función para que discrimine entre las tres posibilidades, ya que en la carga con referencia la primer acción es mostrar el resumen de reclamos abiertos
 
 function mostrarReclamosAbiertos(){
 
 
 google.script.run.withSuccesHandler(function(e){
  arrayReclamosAbiertos = e;
- 
+
  for(var i;i < e.length; i++){
  
  for(var j; j < e[i].length;j++)
@@ -68,4 +68,4 @@ google.script.run.withSuccesHandler(function(e){
  }
 }).reclamosAbiertos();
 
-}
+} // Obtiene los reclamos abiertos desde la planilla de Coldan y los muestra en pantalla.
