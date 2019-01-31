@@ -54,31 +54,35 @@
         <span><p>Colocar id actual</p></span><br>
         <input type="text" name="id" id="id"><br>
         <div id="estadoAccion">
-            <select id="estado">
-                    <option>La campana no está</option>
-                    <option>Quemada</option> 
-                    <option>Volcada</option> 
-                    <option>Rota</option> 
-                    <option>Fuera de posición</option> 
-                    <option>Falta de limpieza</option> 
-                    <option>Sin ploteo</option> 
-                    <option>Sin TAG</option> 
-                    <option>Falla Inexistente</option> 
-                    <option>sin ID</option> 
-                   <option>Planificación</option>    
-            </select>
-            <select id="accion">
-                    <option>Reposición</option>
-                    <option>Limpieza</option> 
-                    <option>Verificación</option> 
-                    <option>Retiro</option> 
-                    <option>Reparación</option> 
-                    <option>Insalación de TAG</option> 
-                    <option>Reubicación</option> 
-                    <option>Instalación de ID</option> 
-                    <option>Ploteo</option>  
-            </select>
-            <button id="agregarMas">+</button>
+            <div id="ea1">
+                <select id="e1">
+                        <option value="Estado">Estado</option>
+                        <option value="Falla Inexistente">Falla Inexistente</option> 
+                        <option value="La campana no está">La campana no está</option>
+                        <option value="Quemada">Quemada</option> 
+                        <option value="Volcada">Volcada</option> 
+                        <option value="Rota">Rota</option> 
+                        <option value="Fuera de posición">Fuera de posición</option> 
+                        <option value="Falta de limpieza">Falta de limpieza</option> 
+                        <option value="Sin ploteo">Sin ploteo</option> 
+                        <option value="Sin TAG">Sin TAG</option> 
+                        <option value="sin ID">sin ID</option> 
+                        <option value="Planificación">Planificación</option>    
+                </select>
+                <select id="a1">
+                        <option value="Acción">Acción</option>
+                        <option value="Reposición">Reposición</option>
+                        <option value="Limpieza">Limpieza</option> 
+                        <option value="Verificación">Verificación</option> 
+                        <option value="Retiro">Retiro</option> 
+                        <option value="Reparación">Reparación</option> 
+                        <option value="Insalación de TAG">Insalación de TAG</option> 
+                        <option value="Reubicación">Reubicación</option> 
+                        <option value="Instalación de ID">Instalación de ID</option> 
+                        <option value="Ploteo">Ploteo</option>  
+                </select>
+                <button id="agregarMas" onclick="agregarAccionEstado();">+</button>
+            </div>
         </div>
         <input type="hidden" id="tipoCampana">
         <input type="hidden" id="problema">

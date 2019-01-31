@@ -1,5 +1,11 @@
 var clave = "abc123";
 var idCampana;
+var estados = ["La campana no está", "Quemada","Volcada","Rota",
+"Fuera de posición","Falta de limpieza", "Sin ploteo", "Sin TAG",
+"Falla Inexistente", "Sin ID", "Planificación"];
+var acciones = ["Reposición","Limpieza","Verificación","Retiro",
+"Reparación","Insalación de TAG","Reubicación","Instalación de ID",
+"Ploteo"];
 var reclamosAbiertos = [
     ["A001", "OTRO", "COSTA RICA", 4150.0, 14.0, "Mecánica", "Falta de limpieza", "Limpieza/desgrafitización", "10/09/2018", ""],
     ["A008", "SAP", "SUCRE ANTONIO JOSE DE, MCAL.", 2917.0, 13.0, "Manual", "Rota", "Retirar", "12/09/2018", "Campana manual sin puerta retirar"],
@@ -218,3 +224,33 @@ function actualizar(i) {
     
 } //Se realiza para actualizar el caso correspondiente.
 
+function agregarAccionEstado(){
+    var estadoAccion = document.getElementById("estadoAccion");
+    var cantidadDeEstadoAccion = (estadoAccion.childElementCount)+1;
+    var div = document.createElement("DIV");
+    div.setAttribute("id","ea"+cantidadDeEstadoAccion);
+    var selecte = document.createElement("select");
+    var selecta = document.createElement("select");
+    selecte.setAttribute("id","e"+cantidadDeEstadoAccion);
+    selecta.setAttribute("id","a"+cantidadDeEstadoAccion);
+    //Agrega las opciones de estados y acciones
+    crearOpciones(selecte,estados);
+    crearOpciones(selecta,acciones);
+    div.appendChild(selecte);
+    div.appendChild(selecta);
+    console.log(cantidadDeEstadoAccion);
+    if(cantidadDeEstadoAccion > 2){
+        var boton = document.getElementById("agregarMas");
+        boton.style.display = "none";
+    }
+    estadoAccion.appendChild(div);
+}
+
+function crearOpciones(select,array){
+    for(var i = 0; i < array.length; i++){
+        var opcion = document.createElement("option");
+        opcion.innerText = array[i];
+        opcion.value = array[i];
+        select.appendChild(opcion);
+    }
+}
