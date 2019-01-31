@@ -81,7 +81,7 @@ function idDeCuadra(calle,altura){
 for(var i = 0; i < idCalles.length;i++){
 
     if( calle == idCalles[i][1] && altura>= idCalles[i][alturaMinima]&& altura <= idCalles[i][alturaMaxima])
-    return idCalles[i][0];
+    return [idCalles[i][0],idCuadra[i][4]]; // [Id de la cuadra, Comuna]
 }
 
 } // Funcion que dada una calle y una altura devuelve el id de la cuadra
@@ -208,7 +208,7 @@ function actualizar(i) {
     var array = reclamosAbiertos[i];
     console.log(array);
     var idCuadra = idDeCuadra(array[2],array[3]);
-    idCampana = idDeCampana(idCuadra);
+    idCampana = idDeCampana(idCuadra[0]); // Le pido el id de la cuadra
     if(!idCampana){idCampana = "NO TIENE DISPONIBLE";}
     validarOpciones();
     document.getElementById("calle").value = array[2];
