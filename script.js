@@ -1,4 +1,5 @@
 var clave = "abc123";
+var idCampana;
 var reclamosAbiertos = [
     ["A001", "OTRO", "COSTA RICA", 4150.0, 14.0, "Mecánica", "Falta de limpieza", "Limpieza/desgrafitización", "10/09/2018", ""],
     ["A008", "SAP", "SUCRE ANTONIO JOSE DE, MCAL.", 2917.0, 13.0, "Manual", "Rota", "Retirar", "12/09/2018", "Campana manual sin puerta retirar"],
@@ -79,18 +80,17 @@ for(var i = 0; i < idCalles.length;i++){
 
 } // Funcion que dada una calle y una altura devuelve el id de la cuadra
 
-function idDeCampana(calle,altura){
+function idDeCampana(idCuadra){
 
- const idCuadra = idDeCuadra(calle,altura);
+ //const idCuadra = idDeCuadra(calle,altura);
 
   for(var i = 0; i < padron.length;i++){
      
      if( idCuadra == padron [i][1])
         
         return padron [i][0];
-
   }
-
+    return false;
 } // funcion que dada calle y altura devuelve el id de la campana asociado
 
 
@@ -144,7 +144,7 @@ function preCarga() {
     }).preCarga();
 }// Hace la conexión con google.
 
-function validarOpciones() {
+function validarOpciones(valor) {
     var opcion = document.getElementById("opcion").value;
     if (opcion == 1) {
         document.getElementById("casosAbiertos").style.display = "inline";
@@ -154,20 +154,25 @@ function validarOpciones() {
         mostrarReclamosAbiertos();
     } else if (opcion == 2) {
         document.getElementById("carga").style.display = "inline";
-        document.getElementById("nSap").style.display = "none";
+        document.getElementById("nSap").style.display = "inline";
+        document.getElementById("nSap").innerText = "Número de Referencia";
         document.getElementById("casosAbiertos").style.display = "none";
-        document.getElementById("referencia").type = "hidden";
+        document.getElementById("referencia").type = "text";
+        document.getElementById("referencia").value = "NO APLICA";
+        document.getElementById("referencia").disabled = true;
     } else if(opcion == 3) {
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "inline";
+        document.getElementById("nSap").innerText = "Número de SAP";
         document.getElementById("referencia").type = "text";
         document.getElementById("casosAbiertos").style.display = "none";
-    } else {
+    } else if(opcion == 0){
         document.getElementById("carga").style.display = "none";
         document.getElementById("nSap").style.display = "none";
         document.getElementById("referencia").type = "hidden";
         document.getElementById("casosAbiertos").style.display = "none";
     }
+
 } // Hay que modificar esta función para que discrimine entre las tres posibilidades, ya que en la carga con referencia la primer acción es mostrar el resumen de reclamos abiertos.
 
 function mostrarReclamosAbiertos() {
@@ -196,6 +201,20 @@ function mostrarReclamosAbiertos() {
 function actualizar(i) {
     var array = reclamosAbiertos[i];
     console.log(array);
-
+    var idCuadra = idDeCuadra(array[2],array[3]);
+    idCampana = idDeCampana(idCuadra);
+    if(!idCampana){idCampana = "NO TIENE DISPONIBLE";}
+    validarOpciones();
+    document.getElementById("calle").value = array[2];
+    document.getElementById("altura").value = array[3];
+    document.getElementById("referencia").value = array[0];
+    document.getElementById("tipoCampana").value = array[5];
+    document.getElementById("problema").value = array[6];
+    document.getElementById("comuna").value = array[4];
+    document.getElementById("origen").value = array[1];
+    document.getElementById("id").value = idCampana;
+    document.getElementById("opcion").value = "2";
+    document.getElementById("altura").focus();
+    
 } //Se realiza para actualizar el caso correspondiente.
 
