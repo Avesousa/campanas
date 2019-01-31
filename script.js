@@ -77,7 +77,7 @@ function validacion(estado, texto, id) {
         id.style.paddingLeft = "1px";
         id.innerHTML = texto;
     }
-}
+}//Valida en el DOM cual es estado de la carga, si es positivo da ingreso o carga, y si es negativo no da el ingreso.
 
 
 function validarOpciones() {
@@ -100,7 +100,7 @@ function validarOpciones() {
         document.getElementById("casosAbiertos").style.display = "none";
 
     }
-} // Hay que modificar esta función para que discrimine entre las tres posibilidades, ya que en la carga con referencia la primer acción es mostrar el resumen de reclamos abiertos
+} // Hay que modificar esta función para que discrimine entre las tres posibilidades, ya que en la carga con referencia la primer acción es mostrar el resumen de reclamos abiertos.
 
 function mostrarReclamosAbiertos() {
     console.log(reclamosAbiertos);
@@ -119,7 +119,7 @@ function mostrarReclamosAbiertos() {
             fila.appendChild(columna); //Acá inserto la columna a la fila.
         }
         var boton = document.createElement("TD"); //creo otra columna para definir el botón de actualizar.
-        boton.innerHTML = '<button onclick="actualizar("' + i + ')">Actualizar</button>'; //Coloca el código html para generar un botón
+        boton.innerHTML = '<button onclick="actualizar('+i+')">Actualizar</button>'; //Coloca el código html para generar un botón
         fila.appendChild(boton); //Acá inserto el botón a la fila.
         tabla.appendChild(fila); //Acá inserto la fila a la tabla.
     }
