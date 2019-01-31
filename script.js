@@ -130,6 +130,8 @@ function mostrarReclamosAbiertos() {
 } // Obtiene los reclamos abiertos desde la planilla de Coldan y los muestra en pantalla.
 //cualquier cosa
 function actualizar(i) {
-    alert("NO ESTÁ REALIZADA AÚN PERO EL ID ES: " + i);
+    var array = reclamosAbiertos[i];
+    var hola = "hola";
 
 } //Se realiza para actualizar el caso correspondiente.
+
