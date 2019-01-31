@@ -55,6 +55,33 @@ var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", 
 [5789.0, 4211.0, "ACHA, MARIANO, GRAL.", 1747.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 3.0]];
 
 
+
+function idDeCuadra(calle,altura){
+
+ const resto = altura % 2;
+ var alturaMinima;
+ var alturaMaxima;
+
+ if(resto == 0) {
+   alturaMinima = 2;
+   alturaMaxima = 3;
+ }
+ else {
+   alturaMinima = 4;
+   alturaMaxima = 5;
+}
+
+for(var i = 0; i < idCalles.length;i++){
+
+    if( calle == idCalles[i][1] && altura>= idCalles[i][alturaMinima]&& idCalles[i][alturaMaxima])
+    return idCalles[i][0];
+}
+
+} // Funcion que dada una calle y una altura devuelve el id de la cuadra
+
+
+
+
 function clickear() {
     document.onkeyup = (function(e) {
         if (e.which == 13) {
