@@ -73,13 +73,25 @@ function idDeCuadra(calle,altura){
 
 for(var i = 0; i < idCalles.length;i++){
 
-    if( calle == idCalles[i][1] && altura>= idCalles[i][alturaMinima]&& idCalles[i][alturaMaxima])
+    if( calle == idCalles[i][1] && altura>= idCalles[i][alturaMinima]&& altura <= idCalles[i][alturaMaxima])
     return idCalles[i][0];
 }
 
 } // Funcion que dada una calle y una altura devuelve el id de la cuadra
 
+function idDeCampana(calle,altura){
 
+ const idCuadra = idDeCuadra(calle,altura);
+
+  for(var i = 0; i < padron.length;i++){
+     
+     if( idCuadra == padron [i][1])
+        
+        return padron [i][0];
+
+  }
+
+} // funcion que dada calle y altura devuelve el id de la campana asociado
 
 
 function clickear() {
