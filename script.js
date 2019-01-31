@@ -123,27 +123,8 @@ function mostrarReclamosAbiertos() {
         fila.appendChild(boton); //Acá inserto el botón a la fila.
         tabla.appendChild(fila); //Acá inserto la fila a la tabla.
     }
-    /*google.script.run.withSuccesHandler(function(e){
-     arrayReclamosAbiertos = e[0];
-    idcalles = e[1];
-     for(var i;i < e.length; i++){
-        var fila = document.createElement("TR"); // Creo una fila nueva
-        fila.setAttribute("id",("valor"+i)); // Le envío un id, para identificar cada fila.
-        for(var j; j < e[i].length;j++){
-            var columna = document.createElement("TD"); // creo una columna nueva
-            var textoColumna = document.createTextNode(e[i][j]); //Creo el texto que va tener la columna correspondiente
-            columna.appendChild(textoColumna); // Acá inserto a la columna el texto correspondiente.
-            fila.appendChild(columna); //Acá inserto la columna a la fila.
-        }
-        var boton = document.createElement("TD"); //creo otra columna para definir el botón de actualizar
-        boton.innerHTML = '<button onclick="actualizar("'+i+')">Actualizar</button>'; //Coloca el código html para generar un botón
-        fila.appendChild(boton); //Acá inserto el botón a la fila.
-        tabla.appendChild(fila); //Acá inserto la fila a la tabla.
-    }
-    }).reclamosAbiertos();*/
-
 } // Obtiene los reclamos abiertos desde la planilla de Coldan y los muestra en pantalla.
-
+//cualquier cosa
 function actualizar(i) {
     alert("NO ESTÁ REALIZADA AÚN PERO EL ID ES: " + i)
 } //Se realiza para actualizar el caso correspondiente.
