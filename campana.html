@@ -46,7 +46,7 @@
     </div>
     <div id="carga">
         <p id="nSap">Número de SAP</p><br>
-        <input type="hidden" id="reclamoSap"><br>
+        <input type="hidden" id="referencia"><br>
         <p>Calle</p><br>
         <input type="text" id="calle"><br>
         <p>Altura</p><br>
@@ -57,7 +57,7 @@
             <option value="NO">NO</option>
         </select><br>
         <input type="text" id="idNuevo"><br>
-        <div id="estado">
+        <div id="estadoAccion">
             <select id="estado">
                     <option>La campana no está</option>
                     <option>Quemada</option> 
@@ -82,6 +82,7 @@
                     <option>Instalación de ID</option> 
                     <option>Ploteo</option>  
             </select>
+            <button>+</button>
         </div>
         <button id="boton" onclick="mostrar();" disabled="true">Botón</button>
     </div>

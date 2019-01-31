@@ -130,9 +130,7 @@ function preCarga() {
         idCalles = e[0];
 
     }).preCarga();
-}
-
-
+}// Hace la conexión con google.
 
 function validarOpciones() {
     var opcion = document.getElementById("opcion").value;
@@ -140,22 +138,22 @@ function validarOpciones() {
         document.getElementById("casosAbiertos").style.display = "inline";
         document.getElementById("carga").style.display = "none";
         document.getElementById("nSap").style.display = "none";
-        document.getElementById("reclamoSap").type = "hidden";
+        document.getElementById("referencia").type = "hidden";
         mostrarReclamosAbiertos();
     } else if (opcion == 2) {
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "none";
         document.getElementById("casosAbiertos").style.display = "none";
-        document.getElementById("reclamoSap").type = "hidden";
+        document.getElementById("referencia").type = "hidden";
     } else if(opcion == 3) {
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "inline";
-        document.getElementById("reclamoSap").type = "text";
+        document.getElementById("referencia").type = "text";
         document.getElementById("casosAbiertos").style.display = "none";
     } else {
         document.getElementById("carga").style.display = "none";
         document.getElementById("nSap").style.display = "none";
-        document.getElementById("reclamoSap").type = "hidden";
+        document.getElementById("referencia").type = "hidden";
         document.getElementById("casosAbiertos").style.display = "none";
     }
 } // Hay que modificar esta función para que discrimine entre las tres posibilidades, ya que en la carga con referencia la primer acción es mostrar el resumen de reclamos abiertos.
@@ -182,10 +180,10 @@ function mostrarReclamosAbiertos() {
         tabla.appendChild(fila); //Acá inserto la fila a la tabla.
     }
 } // Obtiene los reclamos abiertos desde la planilla de Coldan y los muestra en pantalla.
-//cualquier cosa
+
 function actualizar(i) {
     var array = reclamosAbiertos[i];
-    var hola = "hola";
+    console.log(array);
 
 } //Se realiza para actualizar el caso correspondiente.
 
