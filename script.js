@@ -86,19 +86,23 @@ function validarOpciones() {
         document.getElementById("casosAbiertos").style.display = "inline";
         document.getElementById("carga").style.display = "none";
         document.getElementById("nSap").style.display = "none";
-        document.getElementById("reclamoSap").style.display = "none";
+        document.getElementById("reclamoSap").type = "hidden";
         mostrarReclamosAbiertos();
-    } else if (opcion != 3) {
+    } else if (opcion == 2) {
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "none";
-        document.getElementById("reclamoSap").style.display = "none";
         document.getElementById("casosAbiertos").style.display = "none";
-    } else {
+        document.getElementById("reclamoSap").type = "hidden";
+    } else if(opcion == 3) {
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "inline";
-        document.getElementById("reclamoSap").style.display = "inline";
+        document.getElementById("reclamoSap").type = "text";
         document.getElementById("casosAbiertos").style.display = "none";
-
+    } else {
+        document.getElementById("carga").style.display = "none";
+        document.getElementById("nSap").style.display = "none";
+        document.getElementById("reclamoSap").type = "hidden";
+        document.getElementById("casosAbiertos").style.display = "none";
     }
 } // Hay que modificar esta función para que discrimine entre las tres posibilidades, ya que en la carga con referencia la primer acción es mostrar el resumen de reclamos abiertos.
 
@@ -126,5 +130,6 @@ function mostrarReclamosAbiertos() {
 } // Obtiene los reclamos abiertos desde la planilla de Coldan y los muestra en pantalla.
 //cualquier cosa
 function actualizar(i) {
-    alert("NO ESTÁ REALIZADA AÚN PERO EL ID ES: " + i)
+    alert("NO ESTÁ REALIZADA AÚN PERO EL ID ES: " + i);
+
 } //Se realiza para actualizar el caso correspondiente.
