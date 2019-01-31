@@ -36,8 +36,24 @@ var reclamosAbiertos = [
     ["A042", "OTRO", "THAMES", 2078.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "19/09/2018", ""],
     ["A048", "OTRO", "LA PAMPA", 3656.0, 13.0, "Mecánica", "Sin TAG", "Poner TAG", "19/09/2018", "Verificar N° de TAGS"]
 ];;
-var idCalles = [];
-var padron = [];
+
+var idCalles = [[30319.0, "NEWBERY, JORGE", 0.0, 0.0, 2801.0, 2859.0], [30320.0, "NEWBERY, JORGE", 2802.0, 2860.0, 0.0, 0.0], 
+[30322.0, "NEWBERY, JORGE", 0.0, 0.0, 2751.0, 2799.0], [30321.0, "NEWBERY, JORGE", 2752.0, 2800.0, 0.0, 0.0], 
+[30326.0, "NEWBERY, JORGE", 0.0, 0.0, 2661.0, 2699.0], [30324.0, "NEWBERY, JORGE", 0.0, 0.0, 2701.0, 2749.0], [30325.0, "NEWBERY, JORGE", 2662.0, 2700.0, 0.0, 0.0], 
+[30323.0, "NEWBERY, JORGE", 2702.0, 2750.0, 0.0, 0.0]];
+
+var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", "30-04-2015", "Mecánica", "rectangular", "Ok", "link foto", "Activa", 4.0], 
+[4617.0, 2920.0, "3 DE FEBRERO", 1261.0, 14.0, "PALERMO CAÑITAS", "30-04-2015", "Mecánica", "redonda", "Rota", "link foto", "Activa", 4.0], 
+[2452.0, 21167.0, "ACASSUSO", 5767.0, 9.0, "LINIERS", "07-11-2014", "Mecánica", "redonda", "Quemada", "link foto", "Activa", 4.0], 
+[7386.0, 22594.0, "ACASSUSO", 6365.0, 9.0, "LINIERS", "21-08-2014", "Mecánica", "redonda", "Quemada", "link foto", "Activa", 4.0], 
+[2057.0, 22754.0, "ACASSUSO", 6485.0, 9.0, "LINIERS", "21-08-2014", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 6.0], 
+[2053.0, 23457.0, "ACASSUSO", 6997.0, 9.0, "LINIERS", "21-08-2014", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
+[5794.0, 5462.0, "ACHA, MARIANO, GRAL.", 1013.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
+[5557.0, 5169.0, "ACHA, MARIANO, GRAL.", 1179.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
+[5569.0, 5022.0, "ACHA, MARIANO, GRAL.", 1235.0, 15.0, "VILLA ORTUZAR", "01-06-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
+[5572.0, 4349.0, "ACHA, MARIANO, GRAL.", 1693.0, 15.0, "VILLA ORTUZAR", "01-06-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
+[5789.0, 4211.0, "ACHA, MARIANO, GRAL.", 1747.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 3.0]];
+
 
 function clickear() {
     document.onkeyup = (function(e) {
@@ -78,6 +94,17 @@ function validacion(estado, texto, id) {
         id.innerHTML = texto;
     }
 }//Valida en el DOM cual es estado de la carga, si es positivo da ingreso o carga, y si es negativo no da el ingreso.
+
+function preCarga() {
+
+    google.script.run.withSuccessHandler(function(e){
+        reclamosAbiertos = e[2];
+        padron = e[1];
+        idCalles = e[0];
+
+    }).preCarga();
+}
+
 
 
 function validarOpciones() {
