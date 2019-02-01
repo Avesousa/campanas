@@ -1,11 +1,69 @@
 var clave = "abc123";
 var idCampana;
-var estados = ["La campana no está", "Quemada","Volcada","Rota",
-"Fuera de posición","Falta de limpieza", "Sin ploteo", "Sin TAG",
-"Falla Inexistente", "Sin ID", "Planificación"];
-var acciones = ["Reposición","Limpieza","Verificación","Retiro",
+var estados = 
+["Estados","La campana no está","Quemada","Rota","Volcada","Fuera de posición",
+"Falta de limpieza","Sin TAG","Sin ID","Sin ploteo","Falla Inexistente","Planificación"];
+
+var acciones = [
+        [
+            "Acciones"
+        ],
+        [
+            "Reposición",
+            "Instalación de Campana",
+            "Verificación"
+        ],
+        [
+            "Reposición",
+            "Retiro",
+            "Verificación"
+        ],
+        [
+            "Retiro",
+            "Reparación",
+            "Verificación"
+        ],
+        [
+            "Reposición",
+            "Retiro",
+            "Verificación"
+        ],
+        [
+            "Levantar",
+            "Verificación"
+        ],
+        [
+            "Reubicación",
+            "Verificación"
+        ],
+        [
+            "Limpieza",
+            "Verificación"
+        ],
+        [
+            "Instalación de TAG",
+            "Verificación"
+        ],
+        [
+            "Instalación de ID",
+            "Verificación"
+        ],
+        [
+            "Ploteo",
+            "Verificación"
+        ],
+        [
+            "Verificación",
+        ],
+        [
+            "Retiro",
+            "Reubicación"
+        ]
+]
+
+/*var acciones = ["Acciones","Reposición","Limpieza","Verificación","Retiro",
 "Reparación","Insalación de TAG","Reubicación","Instalación de ID",
-"Ploteo"];
+"Ploteo"];*/
 var reclamosAbiertos = [
     ["A001", "OTRO", "COSTA RICA", 4150.0, 14.0, "Mecánica", "Falta de limpieza", "Limpieza/desgrafitización", "10/09/2018", ""],
     ["A008", "SAP", "SUCRE ANTONIO JOSE DE, MCAL.", 2917.0, 13.0, "Manual", "Rota", "Retirar", "12/09/2018", "Campana manual sin puerta retirar"],
@@ -98,7 +156,6 @@ function idDeCampana(idCuadra){
   }
     return false;
 } // funcion que dada calle y altura devuelve el id de la campana asociado
-
 
 function clickear() {
     document.onkeyup = (function(e) {
@@ -235,18 +292,43 @@ function actualizar(i) {
     
 } //Se realiza para actualizar el caso correspondiente.
 
+function actualizarAcciones(id){
+    var estadoSeleccionado = document.getElementById("e"+id).value;
+    var div = document.createElement("DIV");
+    var selecta = document.createElement("select");
+    selecta.setAttribute("id","a"+id);
+    for(var i = 0; i < estados.length; i++){
+        if(estados[i] == estadoSeleccionado){
+            crearOpciones(selecta,acciones[i])
+        }
+    } 
+    div.appendChild(selecta);
+}
+
+function crearEstado(){
+    var estadoAccion = document.getElementById("estadoAccion");
+    var div = document.createElement("DIV");
+    div.setAttribute("id","ea1");
+    var selecte = document.createElement("select");
+    selecte.setAttribute("id","e1");
+    selecte.setAttribute("oninput","actualizarAcciones(1)");
+    crearOpciones(selecte,estados);
+    actualizarAcciones(1);
+    div.appendChild(selecte);
+    estadoAccion.appendChild(div);
+}
+
 function agregarAccionEstado(){
     var estadoAccion = document.getElementById("estadoAccion");
     var cantidadDeEstadoAccion = (estadoAccion.childElementCount)+1;
     var div = document.createElement("DIV");
     div.setAttribute("id","ea"+cantidadDeEstadoAccion);
     var selecte = document.createElement("select");
-    var selecta = document.createElement("select");
     selecte.setAttribute("id","e"+cantidadDeEstadoAccion);
-    selecta.setAttribute("id","a"+cantidadDeEstadoAccion);
+    selecte.setAttribute("oninput","actualizarAcciones("+cantidadDeEstadoAccion+")");
     //Agrega las opciones de estados y acciones
     crearOpciones(selecte,estados);
-    crearOpciones(selecta,acciones);
+    actualizarAcciones(cantidadDeEstadoAccion);
     div.appendChild(selecte);
     div.appendChild(selecta);
     console.log(cantidadDeEstadoAccion);
