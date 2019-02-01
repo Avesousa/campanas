@@ -43,12 +43,12 @@ var reclamosAbiertos = [
     ["A042", "OTRO", "THAMES", 2078.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "19/09/2018", ""],
     ["A048", "OTRO", "LA PAMPA", 3656.0, 13.0, "Mecánica", "Sin TAG", "Poner TAG", "19/09/2018", "Verificar N° de TAGS"]
 ];;
-
 var idCalles = [[30319.0, "NEWBERY, JORGE", 0.0, 0.0, 2801.0, 2859.0], [30320.0, "NEWBERY, JORGE", 2802.0, 2860.0, 0.0, 0.0], 
 [30322.0, "NEWBERY, JORGE", 0.0, 0.0, 2751.0, 2799.0], [30321.0, "NEWBERY, JORGE", 2752.0, 2800.0, 0.0, 0.0], 
 [30326.0, "NEWBERY, JORGE", 0.0, 0.0, 2661.0, 2699.0], [30324.0, "NEWBERY, JORGE", 0.0, 0.0, 2701.0, 2749.0], [30325.0, "NEWBERY, JORGE", 2662.0, 2700.0, 0.0, 0.0], 
 [30323.0, "NEWBERY, JORGE", 2702.0, 2750.0, 0.0, 0.0]];
-
+var html;
+var htmlcargar;
 var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", "30-04-2015", "Mecánica", "rectangular", "Ok", "link foto", "Activa", 4.0], 
 [4617.0, 2920.0, "3 DE FEBRERO", 1261.0, 14.0, "PALERMO CAÑITAS", "30-04-2015", "Mecánica", "redonda", "Rota", "link foto", "Activa", 4.0], 
 [2452.0, 21167.0, "ACASSUSO", 5767.0, 9.0, "LINIERS", "07-11-2014", "Mecánica", "redonda", "Quemada", "link foto", "Activa", 4.0], 
@@ -81,7 +81,7 @@ function idDeCuadra(calle,altura){
 for(var i = 0; i < idCalles.length;i++){
 
     if( calle == idCalles[i][1] && altura>= idCalles[i][alturaMinima]&& altura <= idCalles[i][alturaMaxima])
-    return [idCalles[i][0],idCuadra[i][4]]; // [Id de la cuadra, Comuna]
+    return idCalles[i][0]; // [Id de la cuadra, Comuna]
 }
 
 } // Funcion que dada una calle y una altura devuelve el id de la cuadra
@@ -113,6 +113,9 @@ function entrar() {
     if (claveR == clave) {
         document.getElementById("ingreso").style.display = "none";
         document.getElementById("opciones").style.display = "inline";
+        html = document.body.innerHTML;
+        htmlcargar = document.getElementById("carga").innerHTML;
+        console.log(html);
     } else {
         validacion(false, "NO HA INGRESADO LA CLAVE CORRECTA", "aviso");
     }
@@ -151,6 +154,7 @@ function preCarga() {
 }// Hace la conexión con google.
 
 function validarOpciones(valor) {
+    limpiarCarga();
     var opcion = document.getElementById("opcion").value;
     if (opcion == 1) {
         document.getElementById("casosAbiertos").style.display = "inline";
@@ -171,6 +175,7 @@ function validarOpciones(valor) {
         document.getElementById("nSap").style.display = "inline";
         document.getElementById("nSap").innerText = "Número de SAP";
         document.getElementById("referencia").type = "text";
+        document.getElementById("referencia").disabled = false;
         document.getElementById("casosAbiertos").style.display = "none";
     } else if(opcion == 0){
         document.getElementById("carga").style.display = "none";
@@ -208,9 +213,16 @@ function actualizar(i) {
     var array = reclamosAbiertos[i];
     console.log(array);
     var idCuadra = idDeCuadra(array[2],array[3]);
-    idCampana = idDeCampana(idCuadra[0]); // Le pido el id de la cuadra
+    idCampana = idDeCampana(idCuadra); // Le pido el id de la cuadra
     if(!idCampana){idCampana = "NO TIENE DISPONIBLE";}
-    validarOpciones();
+    document.getElementById("carga").style.display = "inline";
+    document.getElementById("nSap").style.display = "inline";
+    document.getElementById("nSap").innerText = "Número de Referencia";
+    document.getElementById("casosAbiertos").style.display = "none";
+    document.getElementById("referencia").type = "text";
+    document.getElementById("referencia").value = "NO APLICA";
+    document.getElementById("referencia").disabled = true;
+    /////
     document.getElementById("calle").value = array[2];
     document.getElementById("altura").value = array[3];
     document.getElementById("referencia").value = array[0];
@@ -219,7 +231,6 @@ function actualizar(i) {
     document.getElementById("comuna").value = array[4];
     document.getElementById("origen").value = array[1];
     document.getElementById("id").value = idCampana;
-    document.getElementById("opcion").value = "2";
     document.getElementById("altura").focus();
     
 } //Se realiza para actualizar el caso correspondiente.
@@ -253,4 +264,12 @@ function crearOpciones(select,array){
         opcion.value = array[i];
         select.appendChild(opcion);
     }
+}
+
+function limpiar(){
+    document.body.innerHTML = html;
+}
+
+function limpiarCarga(){
+    document.getElementById("carga").innerHTML = htmlcargar;
 }
