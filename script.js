@@ -1,5 +1,6 @@
 var clave = "abc123";
 var idCampana;
+var verificacionDeCampana;
 var estados = 
 ["Estados","La campana no está","Quemada","Rota","Volcada","Fuera de posición",
 "Falta de limpieza","Sin TAG","Sin ID","Sin ploteo","Falla Inexistente","Planificación"];
@@ -104,7 +105,7 @@ var reclamosAbiertos = [
 var idCalles = [[30319.0, "NEWBERY, JORGE", 0.0, 0.0, 2801.0, 2859.0], [30320.0, "NEWBERY, JORGE", 2802.0, 2860.0, 0.0, 0.0], 
 [30322.0, "NEWBERY, JORGE", 0.0, 0.0, 2751.0, 2799.0], [30321.0, "NEWBERY, JORGE", 2752.0, 2800.0, 0.0, 0.0], 
 [30326.0, "NEWBERY, JORGE", 0.0, 0.0, 2661.0, 2699.0], [30324.0, "NEWBERY, JORGE", 0.0, 0.0, 2701.0, 2749.0], [30325.0, "NEWBERY, JORGE", 2662.0, 2700.0, 0.0, 0.0], 
-[30323.0, "NEWBERY, JORGE", 2702.0, 2750.0, 0.0, 0.0]];
+[30323.0, "NEWBERY, JORGE", 2702.0, 2750.0, 0.0, 0.0], [3157.0, "3 DE FEBRERO", 900.00, 998.0, 901.0, 999.00]];
 var html;
 var htmlcargar;
 var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", "30-04-2015", "Mecánica", "rectangular", "Ok", "link foto", "Activa", 4.0], 
@@ -119,14 +120,48 @@ var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", 
 [5572.0, 4349.0, "ACHA, MARIANO, GRAL.", 1693.0, 15.0, "VILLA ORTUZAR", "01-06-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
 [5789.0, 4211.0, "ACHA, MARIANO, GRAL.", 1747.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 3.0]];
 
+function buscarCalleAltura(valor){
+    for(var index = 0; padron.length > index; index++ ){
+        if(valor == padron[index][0]){
+            document.getElementById("calle").value = padron[index][2];
+            document.getElementById("altura").value = padron[index][3];
+        }
+    }
+}
 
+function buscarIdCampana(){
+    var altura = document.getElementById("altura");
+    var calle = document.getElementById("calle");
+    if(calle.value != "" && altura.value != ""){
+        var cuadra = idDeCuadra(calle.value,altura.value);
+        verificacionDeCampana = cuadra;
+        if(!verificacionDeCampana){return;}
+        var campana = idDeCampana(cuadra);
+        document.getElementById("id").value = campana;
+    }
+}
+
+function hacerMayus(valor,id){
+    var resultado = valor.toUpperCase();
+    document.getElementById(id).value = resultado;
+}
+
+function verificacionDeIdCampana(){
+    if(!verificacionDeCampana){
+        alert("LA ALTURA Y CALLE INGRESADO NO SON VÁLIDOS");
+        document.getElementById("altura").value = "";
+        document.getElementById("calle").value = "";
+        document.getElementById("calle").focus();
+    }
+}
 
 function idDeCuadra(calle,altura){
 
  const resto = altura % 2;
  var alturaMinima;
  var alturaMaxima;
-
+ console.log(calle);
+ console.log(altura);
  if(resto == 0) {
    alturaMinima = 2;
    alturaMaxima = 3;
@@ -135,23 +170,31 @@ function idDeCuadra(calle,altura){
    alturaMinima = 4;
    alturaMaxima = 5;
 }
-
+console.log(idCalles);
+console.log(alturaMinima);
+console.log(alturaMaxima);
 for(var i = 0; i < idCalles.length;i++){
-
-    if( calle == idCalles[i][1] && altura>= idCalles[i][alturaMinima]&& altura <= idCalles[i][alturaMaxima])
-    return idCalles[i][0]; // [Id de la cuadra, Comuna]
+    console.log(idCalles[i][1]);
+    console.log(idCalles[i][alturaMinima]);
+    console.log(idCalles[i][alturaMaxima]);
+    if( calle == idCalles[i][1] && altura>= idCalles[i][alturaMinima]&& altura <= idCalles[i][alturaMaxima]){    
+         console.log(idCalles[i][0]);
+        return idCalles[i][0]; // [Id de la cuadra, Comuna]
+    } 
+    
+    
 }
-
-} // Funcion que dada una calle y una altura devuelve el id de la cuadra
+return false;
+}
 
 function idDeCampana(idCuadra){
 
  //const idCuadra = idDeCuadra(calle,altura);
-
+console.log("entro en ID DE CAMPANA");
+console.log(idCuadra);
   for(var i = 0; i < padron.length;i++){
-     
-     if( idCuadra == padron [i][1])
-        
+     console.log(padron[i][1]);
+     if( idCuadra == padron[i][1])
         return padron [i][0];
   }
     return false;
@@ -175,6 +218,7 @@ function entrar() {
         console.log(html);
     } else {
         validacion(false, "NO HA INGRESADO LA CLAVE CORRECTA", "aviso");
+        document.getElementById("clave").value = "";
     }
 }
 clickear();
@@ -240,6 +284,7 @@ function validarOpciones(valor) {
         document.getElementById("referencia").type = "hidden";
         document.getElementById("casosAbiertos").style.display = "none";
     }
+    agregarEstado();
 
 } // Hay que modificar esta función para que discrimine entre las tres posibilidades, ya que en la carga con referencia la primer acción es mostrar el resumen de reclamos abiertos.
 
@@ -292,51 +337,45 @@ function actualizar(i) {
     
 } //Se realiza para actualizar el caso correspondiente.
 
-function actualizarAcciones(id){
-    var estadoSeleccionado = document.getElementById("e"+id).value;
+
+function agregarEstado(){
+    var divPrincipal = document.getElementById("estadoAccion");
+    var cantidad = (divPrincipal.childElementCount)+1;
     var div = document.createElement("DIV");
-    var selecta = document.createElement("select");
-    selecta.setAttribute("id","a"+id);
+    div.setAttribute("id","ea"+cantidad);
+    var selector = document.createElement("select");
+    selector.setAttribute("id","e"+cantidad);
+    selector.setAttribute("oninput","actualizarAcciones("+cantidad+")");
+    crearOpciones(selector,estados);
+    div.appendChild(selector);
+    agregarAccion(div,cantidad);
+}
+
+function agregarAccion(div,cantidad){
+    var selector = document.createElement("select");
+    selector.setAttribute("id","a"+cantidad);
+    selector.setAttribute("oninput","actualizarAcciones("+cantidad+")");
+    actualizarAcciones(cantidad,selector);
+    if(cantidad == 1) {
+        var boton = document.createElement("BUTTON");
+        boton.setAttribute("id","agregarMas");
+        boton.setAttribute("onclick","agregarEstado();");
+        boton.innerHTML = "+";
+        div.appendChild(boton);
+    }
+    div.appendChild(selector);
+}
+
+function actualizarAcciones(id,selecta){
+    var estado = document.getElementById("e"+id).value;
     for(var i = 0; i < estados.length; i++){
-        if(estados[i] == estadoSeleccionado){
+        if(estados[i] == estado){
             crearOpciones(selecta,acciones[i])
         }
     } 
-    div.appendChild(selecta);
-}
-
-function crearEstado(){
-    var estadoAccion = document.getElementById("estadoAccion");
-    var div = document.createElement("DIV");
-    div.setAttribute("id","ea1");
-    var selecte = document.createElement("select");
-    selecte.setAttribute("id","e1");
-    selecte.setAttribute("oninput","actualizarAcciones(1)");
-    crearOpciones(selecte,estados);
-    actualizarAcciones(1);
-    div.appendChild(selecte);
-    estadoAccion.appendChild(div);
-}
-
-function agregarAccionEstado(){
-    var estadoAccion = document.getElementById("estadoAccion");
-    var cantidadDeEstadoAccion = (estadoAccion.childElementCount)+1;
-    var div = document.createElement("DIV");
-    div.setAttribute("id","ea"+cantidadDeEstadoAccion);
-    var selecte = document.createElement("select");
-    selecte.setAttribute("id","e"+cantidadDeEstadoAccion);
-    selecte.setAttribute("oninput","actualizarAcciones("+cantidadDeEstadoAccion+")");
-    //Agrega las opciones de estados y acciones
-    crearOpciones(selecte,estados);
-    actualizarAcciones(cantidadDeEstadoAccion);
-    div.appendChild(selecte);
-    div.appendChild(selecta);
-    console.log(cantidadDeEstadoAccion);
-    if(cantidadDeEstadoAccion > 2){
-        var boton = document.getElementById("agregarMas");
-        boton.style.display = "none";
-    }
-    estadoAccion.appendChild(div);
+    if(cantidad < 2){
+        document.getElementById("agregarMas").style.display = "none";
+    } 
 }
 
 function crearOpciones(select,array){

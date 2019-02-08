@@ -47,42 +47,13 @@
     <div id="carga">
         <p id="nSap">Número de Referencia</p><br>
         <input type="text" id="referencia"><br>
+        <span><p>Colocar id actual de campana</p></span><br>
+        <input type="text" name="id" id="id" oninput="buscarCalleAltura(this.value);"><br>
         <p>Calle</p><br>
-        <input type="text" id="calle"><br>
+        <input type="text" id="calle" oninput="buscarIdCampana(); hacerMayus(this.value,'calle')"><br>
         <p>Altura</p><br>
-        <input type="number" id="altura"><br>
-        <span><p>Colocar id actual</p></span><br>
-        <input type="text" name="id" id="id"><br>
+        <input type="number" id="altura" oninput="buscarIdCampana();" onblur="verificacionDeIdCampana();"><br>
         <div id="estadoAccion">
-            <div id="ea1">
-                <select id="e1">
-                        <option value="Estado">Estado</option>
-                        <option value="Falla Inexistente">Falla Inexistente</option> 
-                        <option value="La campana no está">La campana no está</option>
-                        <option value="Quemada">Quemada</option> 
-                        <option value="Volcada">Volcada</option> 
-                        <option value="Rota">Rota</option> 
-                        <option value="Fuera de posición">Fuera de posición</option> 
-                        <option value="Falta de limpieza">Falta de limpieza</option> 
-                        <option value="Sin ploteo">Sin ploteo</option> 
-                        <option value="Sin TAG">Sin TAG</option> 
-                        <option value="sin ID">sin ID</option> 
-                        <option value="Planificación">Planificación</option>    
-                </select>
-                <select id="a1">
-                        <option value="Acción">Acción</option>
-                        <option value="Reposición">Reposición</option>
-                        <option value="Limpieza">Limpieza</option> 
-                        <option value="Verificación">Verificación</option> 
-                        <option value="Retiro">Retiro</option> 
-                        <option value="Reparación">Reparación</option> 
-                        <option value="Insalación de TAG">Insalación de TAG</option> 
-                        <option value="Reubicación">Reubicación</option> 
-                        <option value="Instalación de ID">Instalación de ID</option> 
-                        <option value="Ploteo">Ploteo</option>  
-                </select>
-                <button id="agregarMas" onclick="agregarAccionEstado();">+</button>
-            </div>
         </div>
         <input type="hidden" id="tipoCampana">
         <input type="hidden" id="problema">
