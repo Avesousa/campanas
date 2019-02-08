@@ -258,7 +258,7 @@ function validarOpciones() {
     limpiarCarga();
     var opcion = document.getElementById("opcion").value;
     switch (opcion) {
-        case 1:
+        case '1':
         document.getElementById("casosAbiertos").style.display = "inline";
         document.getElementById("carga").style.display = "none";
         document.getElementById("nSap").style.display = "none";
@@ -266,7 +266,7 @@ function validarOpciones() {
         mostrarReclamosAbiertos();
         break;
 
-        case 2:
+        case '2':
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "inline";
         document.getElementById("nSap").innerText = "Número de Referencia";
@@ -275,7 +275,7 @@ function validarOpciones() {
         document.getElementById("referencia").value = "NO APLICA";
         document.getElementById("referencia").disabled = true;
         break;
-        case 3:
+        case '3':
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "inline";
         document.getElementById("nSap").innerText = "Número de SAP";
@@ -283,7 +283,7 @@ function validarOpciones() {
         document.getElementById("referencia").disabled = false;
         document.getElementById("casosAbiertos").style.display = "none";
         break;
-        case 0:
+        case '0':
         document.getElementById("carga").style.display = "none";
         document.getElementById("nSap").style.display = "none";
         document.getElementById("referencia").type = "hidden";
@@ -339,7 +339,7 @@ function actualizar(i) {
     document.getElementById("comuna").value = array[4];
     document.getElementById("origen").value = array[1];
     document.getElementById("id").value = idCampana;
-    document.getElementById("altura").focus();
+    document.getElementById("id").focus();
     
 } //Se realiza para actualizar el caso correspondiente.
 
@@ -374,12 +374,15 @@ function agregarAccion(div,cantidad){
         boton.innerHTML = "+";
         div.appendChild(boton);
     }
-    actualizarAcciones(cantidad,selector);
+    console.log("***EN AGREGAR ACCION***")
     console.log(selector);
+    actualizarAcciones(cantidad);
 }
 
-function actualizarAcciones(id,selecta){
+function actualizarAcciones(id){
     var estado = document.getElementById("e"+id).value;
+    var selecta = document.getElementById("a"+id);
+    selecta.innerHTML = "";
     console.log("***EN ACTUALIZAR ACCIONES***");
     console.log(selecta);
     if(id < 2){
