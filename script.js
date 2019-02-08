@@ -339,6 +339,7 @@ function actualizar(i) {
 
 
 function agregarEstado(){
+    console.log("ENTRO EN AGREGAR ESTADO");
     var divPrincipal = document.getElementById("estadoAccion");
     var cantidad = (divPrincipal.childElementCount)+1;
     var div = document.createElement("DIV");
@@ -348,14 +349,18 @@ function agregarEstado(){
     selector.setAttribute("oninput","actualizarAcciones("+cantidad+")");
     crearOpciones(selector,estados);
     div.appendChild(selector);
+    divPrincipal.appendChild(div);
+    console.log(selector);
+    console.log(div);
+    console.log(cantidad);
     agregarAccion(div,cantidad);
 }
 
 function agregarAccion(div,cantidad){
+    console.log("AGREGAR ACCION");
     var selector = document.createElement("select");
     selector.setAttribute("id","a"+cantidad);
-    selector.setAttribute("oninput","actualizarAcciones("+cantidad+")");
-    actualizarAcciones(cantidad,selector);
+    div.appendChild(selector);
     if(cantidad == 1) {
         var boton = document.createElement("BUTTON");
         boton.setAttribute("id","agregarMas");
@@ -363,22 +368,27 @@ function agregarAccion(div,cantidad){
         boton.innerHTML = "+";
         div.appendChild(boton);
     }
-    div.appendChild(selector);
+    actualizarAcciones(cantidad,selector);
+    console.log(selector);
 }
 
 function actualizarAcciones(id,selecta){
     var estado = document.getElementById("e"+id).value;
+    console.log("***EN ACTUALIZAR ACCIONES***");
+    console.log(selecta);
+    if(id < 2){
+        document.getElementById("agregarMas").style.display = "none";
+    } 
     for(var i = 0; i < estados.length; i++){
         if(estados[i] == estado){
             crearOpciones(selecta,acciones[i])
         }
     } 
-    if(cantidad < 2){
-        document.getElementById("agregarMas").style.display = "none";
-    } 
 }
 
 function crearOpciones(select,array){
+    console.log("***CREAR OPCIONES***");
+    console.log(select);
     for(var i = 0; i < array.length; i++){
         var opcion = document.createElement("option");
         opcion.innerText = array[i];
