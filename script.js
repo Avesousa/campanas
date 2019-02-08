@@ -254,16 +254,19 @@ function preCarga() {
     }).preCarga();
 }// Hace la conexión con google.
 
-function validarOpciones(valor) {
+function validarOpciones() {
     limpiarCarga();
     var opcion = document.getElementById("opcion").value;
-    if (opcion == 1) {
+    switch (opcion) {
+        case 1:
         document.getElementById("casosAbiertos").style.display = "inline";
         document.getElementById("carga").style.display = "none";
         document.getElementById("nSap").style.display = "none";
         document.getElementById("referencia").type = "hidden";
         mostrarReclamosAbiertos();
-    } else if (opcion == 2) {
+        break;
+
+        case 2:
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "inline";
         document.getElementById("nSap").innerText = "Número de Referencia";
@@ -271,18 +274,21 @@ function validarOpciones(valor) {
         document.getElementById("referencia").type = "text";
         document.getElementById("referencia").value = "NO APLICA";
         document.getElementById("referencia").disabled = true;
-    } else if(opcion == 3) {
+        break;
+        case 3:
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "inline";
         document.getElementById("nSap").innerText = "Número de SAP";
         document.getElementById("referencia").type = "text";
         document.getElementById("referencia").disabled = false;
         document.getElementById("casosAbiertos").style.display = "none";
-    } else if(opcion == 0){
+        break;
+        case 0:
         document.getElementById("carga").style.display = "none";
         document.getElementById("nSap").style.display = "none";
         document.getElementById("referencia").type = "hidden";
         document.getElementById("casosAbiertos").style.display = "none";
+        break;
     }
     agregarEstado();
 
