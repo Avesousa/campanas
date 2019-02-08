@@ -20,17 +20,14 @@ var acciones = [
             "Verificación"
         ],
         [
+            "Reposición",
             "Retiro",
             "Reparación",
             "Verificación"
         ],
         [
-            "Reposición",
+            "Reubicación",
             "Retiro",
-            "Verificación"
-        ],
-        [
-            "Levantar",
             "Verificación"
         ],
         [
@@ -54,10 +51,12 @@ var acciones = [
             "Verificación"
         ],
         [
-            "Verificación",
+            "Verificación"
         ],
         [
             "Retiro",
+            "Instalación de campana",
+            "Instalación de contenedor",
             "Reubicación"
         ]
 ]
