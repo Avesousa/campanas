@@ -124,6 +124,9 @@ var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", 
 [5572.0, 4349.0, "ACHA, MARIANO, GRAL.", 1693.0, 15.0, "VILLA ORTUZAR", "01-06-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
 [5789.0, 4211.0, "ACHA, MARIANO, GRAL.", 1747.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 3.0]];
 
+
+const master = [[1,"SAP",22754,2057,"04-08-2018","13-12-2018","Quemada","Reposición"],[2,"SAP",22754,2057,"04-08-2018","13-12-2018","Quemada","Reposición"],[3,"SAP",22754,2057,"04-08-2018","13-12-2018","Quemada","Reposición"],[4,"SAP",5462,5794,"04-08-2018","13-12-2018","Quemada","Reposición"],[5,"SAP",5462,5794,"04-08-2018","13-12-2018","Quemada","Reposición"]]
+
 function buscarCalleAltura(valor){
     for(var index = 0; padron.length > index; index++ ){
         if(valor == padron[index][0]){
@@ -420,3 +423,11 @@ function limpiarCarga(){
     document.getElementById("carga").innerHTML = htmlcargar;
 }
 
+
+function validarReiteraciones(idCampana) {
+
+ const reiteraciones = master.filter(registro => registro [3] == idCampana && registro [7]=="Reposición");
+
+ return reiteraciones.length > 2; 
+
+} // Dado un ID de campana busca en el master las reiteraciones, si estas son más de dos retorna True caso contrario False
