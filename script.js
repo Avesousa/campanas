@@ -279,6 +279,7 @@ function validarOpciones() {
         document.getElementById("referencia").value = "NO APLICA";
         document.getElementById("referencia").disabled = true;
         break;
+        
         case '3':
         document.getElementById("carga").style.display = "inline";
         document.getElementById("nSap").style.display = "inline";
@@ -287,6 +288,7 @@ function validarOpciones() {
         document.getElementById("referencia").disabled = false;
         document.getElementById("casosAbiertos").style.display = "none";
         break;
+        
         case '0':
         document.getElementById("carga").style.display = "none";
         document.getElementById("nSap").style.display = "none";
@@ -417,3 +419,4 @@ function limpiar(){
 function limpiarCarga(){
     document.getElementById("carga").innerHTML = htmlcargar;
 }
+
