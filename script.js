@@ -428,6 +428,7 @@ function validarReiteraciones(idCampana) {
 
  const reiteraciones = master.filter(registro => registro [3] == idCampana && registro [7]=="Reposición");
 
- return reiteraciones.length > 2; 
+ return reiteraciones.length; 
 
-} // Dado un ID de campana busca en el master las reiteraciones, si estas son más de dos retorna True caso contrario False
+} // Dado un ID de campana busca en el master las reiteraciones y retorna la cantidad
+
