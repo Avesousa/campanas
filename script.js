@@ -125,7 +125,7 @@ var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", 
 [5789.0, 4211.0, "ACHA, MARIANO, GRAL.", 1747.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 3.0]];
 
 
-const master = [[1,"SAP",22754,2057,"04-08-2018","13-12-2018","Quemada","Reposición"],[2,"SAP",22754,2057,"04-08-2018","13-12-2018","Quemada","Reposición"],[3,"SAP",22754,2057,"04-08-2018","13-12-2018","Quemada","Reposición"],[4,"SAP",5462,5794,"04-08-2018","13-12-2018","Quemada","Reposición"],[5,"SAP",5462,5794,"04-08-2018","13-12-2018","Quemada","Reposición"]]
+const master = [[1,"SAP",22754,2057,"2018-08-04","2017-12-13","Quemada","Reposición"],[2,"SAP",22754,2057,"04-08-2018","2018-09-13","Quemada","Reposición"],[3,"SAP",22754,2057,"2020-05-02","2020-05-02","Quemada","Reposición"],[4,"SAP",5462,5794,"04-08-2018","13-12-2015","Quemada","Reposición"],[5,"SAP",5462,5794,"04-08-2018","13-12-2018","Quemada","Reposición"]]
 
 function buscarCalleAltura(valor){
     for(var index = 0; padron.length > index; index++ ){
@@ -421,15 +421,35 @@ function limpiar(){
 
 function limpiarCarga(){
     document.getElementById("carga").innerHTML = htmlcargar;
+
 }
 
+/*
 
-function reiteraciones(idCampana) {
+function reiteraciones(idCuadra) {
 
- const reiteraciones = master.filter(registro => registro [3] == idCampana && registro [7]=="Reposición");
+  const reiteraciones = master.filter(registro => registro [3] == idCuadra && registro [7]=="Reposición");
+    console.log(reiteraciones);
+    if(reiteraciones.length > 1){
 
- return reiteraciones.length; 
-
+        const diferenciaDias = diasDeDiferencia(reiteraciones[reiteraciones.length-2][5],reiteraciones[reiteraciones.length-1][5]);
+      
+        return (diferenciaDias / 2) > 180; 
+    }
+     return true;
 } // Dado un ID de campana busca en el master las reiteraciones y retorna la cantidad
 
+function diasDeDiferencia(fecha1,fecha2){
+    console.log(fecha1);
+    console.log(fecha2);
+    const fechaInicial = new Date(fecha1).getTime();
+    const fechaFinal = new Date(fecha2).getTime();
 
+    console.log(fechaFinal);
+    console.log(fechaInicial);
+
+    return (fechaFinal - fechaInicial)/(1000*60*60*24);
+
+} // Obtiene la franja de días que existen entre la primer reposicion de una campana y el día de hoy
+
+*/
