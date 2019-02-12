@@ -3,7 +3,7 @@ var idCampana;
 var verificacionDeCampana;
 var estados = 
 ["Estados","La campana no está","Quemada","Rota","Volcada","Fuera de posición",
-"Falta de limpieza","Sin TAG","Sin ID","Sin ploteo","Falla Inexistente","Planificación"];
+"Falta de limpieza","Sin TAG","Sin ID","Sin ploteo","Falla Inexistente","Planificación","Operable"];
 
 var acciones = [
         [
@@ -58,7 +58,12 @@ var acciones = [
             "Instalación de campana",
             "Instalación de contenedor",
             "Reubicación"
+        ],
+        [
+            "Retiro",
+            "Verificación"
         ]
+        
 ]
 
 /*var acciones = ["Acciones","Reposición","Limpieza","Verificación","Retiro",
