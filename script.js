@@ -1,10 +1,8 @@
 var clave = "abc123";
 var idCampana;
 var verificacionDeCampana;
-var estados = 
-["Estados","La campana no está","Quemada","Rota","Volcada","Fuera de posición",
+var estados = ["Estados","La campana no está","Quemada","Rota","Volcada","Fuera de posición",
 "Falta de limpieza","Sin TAG","Sin ID","Sin ploteo","Falla Inexistente","Planificación"];
-
 var acciones = [
         [
             "Acciones"
@@ -60,11 +58,13 @@ var acciones = [
             "Retiro",
             "Reubicación"
         ]
-]
-
-/*var acciones = ["Acciones","Reposición","Limpieza","Verificación","Retiro",
+];
+/*var jerarquiaDeAcciones = ["Acciones","Reposición","Limpieza","Verificación","Retiro",
 "Reparación","Insalación de TAG","Reubicación","Instalación de ID",
 "Ploteo"];*/
+var html;
+var htmlcargar;
+var estadoAccionCargados = [];
 var reclamosAbiertos = [
     ["A001", "OTRO", "COSTA RICA", 4150.0, 14.0, "Mecánica", "Falta de limpieza", "Limpieza/desgrafitización", "10/09/2018", ""],
     ["A008", "SAP", "SUCRE ANTONIO JOSE DE, MCAL.", 2917.0, 13.0, "Manual", "Rota", "Retirar", "12/09/2018", "Campana manual sin puerta retirar"],
@@ -106,8 +106,6 @@ var idCalles = [[30319.0, "NEWBERY, JORGE", 0.0, 0.0, 2801.0, 2859.0], [30320.0,
 [30322.0, "NEWBERY, JORGE", 0.0, 0.0, 2751.0, 2799.0], [30321.0, "NEWBERY, JORGE", 2752.0, 2800.0, 0.0, 0.0], 
 [30326.0, "NEWBERY, JORGE", 0.0, 0.0, 2661.0, 2699.0], [30324.0, "NEWBERY, JORGE", 0.0, 0.0, 2701.0, 2749.0], [30325.0, "NEWBERY, JORGE", 2662.0, 2700.0, 0.0, 0.0], 
 [30323.0, "NEWBERY, JORGE", 2702.0, 2750.0, 0.0, 0.0], [3157.0, "3 DE FEBRERO", 900.00, 998.0, 901.0, 999.00]];
-var html;
-var htmlcargar;
 var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", "30-04-2015", "Mecánica", "rectangular", "Ok", "link foto", "Activa", 4.0], 
 [4617.0, 2920.0, "3 DE FEBRERO", 1261.0, 14.0, "PALERMO CAÑITAS", "30-04-2015", "Mecánica", "redonda", "Rota", "link foto", "Activa", 4.0], 
 [2452.0, 21167.0, "ACASSUSO", 5767.0, 9.0, "LINIERS", "07-11-2014", "Mecánica", "redonda", "Quemada", "link foto", "Activa", 4.0], 
@@ -119,6 +117,21 @@ var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", 
 [5569.0, 5022.0, "ACHA, MARIANO, GRAL.", 1235.0, 15.0, "VILLA ORTUZAR", "01-06-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
 [5572.0, 4349.0, "ACHA, MARIANO, GRAL.", 1693.0, 15.0, "VILLA ORTUZAR", "01-06-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
 [5789.0, 4211.0, "ACHA, MARIANO, GRAL.", 1747.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 3.0]];
+
+//Variables globales que van a hacer utilizadas para hacer el paquete de envío a Google App Script
+var accion, estado;
+
+function sacarJerarquia(){
+    for(var i = 0; estados.length > i; i++){
+        for(var j = 0; estadoAccionCargados.length > j; j++){
+            if(estados[i] == estadoAccionCargados[j][0]){
+                accion = estadoAccionCargados[j][1];
+                estado = estadoAccionCargados[j][0];
+                return estadoAccionCargados = [];
+            }
+        }
+    }
+}//Función que ayuda a definir la jerarquia de las acciones y los estados a colocar.
 
 function buscarCalleAltura(valor){
     for(var index = 0; padron.length > index; index++ ){
@@ -160,8 +173,6 @@ function idDeCuadra(calle,altura){
  const resto = altura % 2;
  var alturaMinima;
  var alturaMaxima;
- console.log(calle);
- console.log(altura);
  if(resto == 0) {
    alturaMinima = 2;
    alturaMaxima = 3;
@@ -170,15 +181,8 @@ function idDeCuadra(calle,altura){
    alturaMinima = 4;
    alturaMaxima = 5;
 }
-console.log(idCalles);
-console.log(alturaMinima);
-console.log(alturaMaxima);
 for(var i = 0; i < idCalles.length;i++){
-    console.log(idCalles[i][1]);
-    console.log(idCalles[i][alturaMinima]);
-    console.log(idCalles[i][alturaMaxima]);
     if( calle == idCalles[i][1] && altura>= idCalles[i][alturaMinima]&& altura <= idCalles[i][alturaMaxima]){    
-         console.log(idCalles[i][0]);
         return idCalles[i][0]; // [Id de la cuadra, Comuna]
     } 
     
@@ -190,10 +194,7 @@ return false;
 function idDeCampana(idCuadra){
 
  //const idCuadra = idDeCuadra(calle,altura);
-console.log("entro en ID DE CAMPANA");
-console.log(idCuadra);
   for(var i = 0; i < padron.length;i++){
-     console.log(padron[i][1]);
      if( idCuadra == padron[i][1])
         return padron [i][0];
   }
@@ -215,7 +216,6 @@ function entrar() {
         document.getElementById("opciones").style.display = "inline";
         html = document.body.innerHTML;
         htmlcargar = document.getElementById("carga").innerHTML;
-        console.log(html);
     } else {
         validacion(false, "NO HA INGRESADO LA CLAVE CORRECTA", "aviso");
         document.getElementById("clave").value = "";
@@ -295,14 +295,9 @@ function validarOpciones() {
 } // Hay que modificar esta función para que discrimine entre las tres posibilidades, ya que en la carga con referencia la primer acción es mostrar el resumen de reclamos abiertos.
 
 function mostrarReclamosAbiertos() {
-    console.log(reclamosAbiertos);
     var tabla = document.getElementById("casos");
-    console.log(tabla);
-    console.log(0 < reclamosAbiertos.length);
     for (var i = 0; i < reclamosAbiertos.length; i++) {
         var fila = document.createElement("TR"); // Creo una fila nueva
-        console.log("ENTRO EN EL PRIMER FOR");
-        console.log(i);
         fila.setAttribute("id", ("valor" + i)); // Le envío un id, para identificar cada fila.
         for (var j = 0; j < reclamosAbiertos[i].length; j++) {
             var columna = document.createElement("TD"); // creo una columna nueva
@@ -319,7 +314,6 @@ function mostrarReclamosAbiertos() {
 
 function actualizar(i) {
     var array = reclamosAbiertos[i];
-    console.log(array);
     var idCuadra = idDeCuadra(array[2],array[3]);
     idCampana = idDeCampana(idCuadra); // Le pido el id de la cuadra
     if(!idCampana){idCampana = "NO TIENE DISPONIBLE";}
@@ -345,7 +339,6 @@ function actualizar(i) {
 
 
 function agregarEstado(){
-    console.log("ENTRO EN AGREGAR ESTADO");
     var divPrincipal = document.getElementById("estadoAccion");
     var cantidad = (divPrincipal.childElementCount)+1;
     var div = document.createElement("DIV");
@@ -356,18 +349,18 @@ function agregarEstado(){
     crearOpciones(selector,estados);
     div.appendChild(selector);
     divPrincipal.appendChild(div);
-    console.log(selector);
-    console.log(div);
-    console.log(cantidad);
     agregarAccion(div,cantidad);
 }
 
 function agregarAccion(div,cantidad){
     console.log("AGREGAR ACCION");
+    console.log(cantidad);
+    console.log(div);
     var selector = document.createElement("select");
     selector.setAttribute("id","a"+cantidad);
     div.appendChild(selector);
     if(cantidad == 1) {
+        console.log("Entro al if de cantidad");
         var boton = document.createElement("BUTTON");
         boton.setAttribute("id","agregarMas");
         boton.setAttribute("onclick","agregarEstado();");
@@ -375,7 +368,6 @@ function agregarAccion(div,cantidad){
         div.appendChild(boton);
     }
     console.log("***EN AGREGAR ACCION***")
-    console.log(selector);
     actualizarAcciones(cantidad);
 }
 
@@ -383,9 +375,7 @@ function actualizarAcciones(id){
     var estado = document.getElementById("e"+id).value;
     var selecta = document.getElementById("a"+id);
     selecta.innerHTML = "";
-    console.log("***EN ACTUALIZAR ACCIONES***");
-    console.log(selecta);
-    if(id < 2){
+    if(id > 2){
         document.getElementById("agregarMas").style.display = "none";
     } 
     for(var i = 0; i < estados.length; i++){
@@ -396,8 +386,6 @@ function actualizarAcciones(id){
 }
 
 function crearOpciones(select,array){
-    console.log("***CREAR OPCIONES***");
-    console.log(select);
     for(var i = 0; i < array.length; i++){
         var opcion = document.createElement("option");
         opcion.innerText = array[i];
@@ -416,4 +404,24 @@ function limpiarCarga(){
 
 function prepararPaquete(){
     
+}
+
+function extraerEstadoAccion(){
+    for(var i = 1; i <= 3; i++){
+        const estadoCargado = document.getElementById("e"+i);
+        const accionCargada = document.getElementById("a"+i);
+        if(estadoCargado != null){
+            estadoAccionCargados.push([estadoCargado.value,accionCargada.value]);
+            estadoCargado.value = estados[0];
+            accionCargada.innerHTML = '<option value="'+acciones[0][0]+'">'+acciones[0][0]+'</option>';
+        } else{
+            return;
+        }
+    }
+}
+
+function enviar(){
+    extraerEstadoAccion();
+    sacarJerarquia();
+    alert("El estado mayor es: " + estado + " y la acción mayor es: " + accion);
 }
