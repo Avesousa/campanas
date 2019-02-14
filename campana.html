@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,7 +46,7 @@
     <div id="carga">
         <p id="nSap">Número de Referencia</p><br>
         <input type="text" id="referencia"><br>
-        <span><p>Colocar id actual de campana</p></span><br>
+        <p>Colocar id actual de campana</p><br>
         <input type="text" name="id" id="id" oninput="buscarCalleAltura(this.value);"><br>
         <p>Calle</p><br>
         <input type="text" id="calle" oninput="buscarIdCampana(); hacerMayus(this.value,'calle')"><br>
@@ -59,7 +58,11 @@
         <input type="hidden" id="problema">
         <input type="hidden" id="comuna">
         <input type="hidden" id="origen">
+<<<<<<< HEAD
         <button id="boton" onclick="enviar();">Actualizar</button>
+=======
+        <button id="boton" onclick="mostrar();" disabled>Actualizar</button>
+>>>>>>> 66f087d6e7f4a653e385f1e57618f126ff23fae8
     </div>
 
 </body>
