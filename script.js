@@ -413,3 +413,7 @@ function limpiar(){
 function limpiarCarga(){
     document.getElementById("carga").innerHTML = htmlcargar;
 }
+
+function prepararPaquete(){
+    
+}
