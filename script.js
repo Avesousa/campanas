@@ -1,15 +1,8 @@
 var clave = "abc123";
 var idCampana;
 var verificacionDeCampana;
-<<<<<<< HEAD
 var estados = ["Estados","La campana no está","Quemada","Rota","Volcada","Fuera de posición",
 "Falta de limpieza","Sin TAG","Sin ID","Sin ploteo","Falla Inexistente","Planificación"];
-=======
-var estados = 
-["Estados","La campana no está","Quemada","Rota","Volcada","Fuera de posición",
-"Falta de limpieza","Sin TAG","Sin ID","Sin ploteo","Falla Inexistente","Planificación","Operable"];
-
->>>>>>> 66f087d6e7f4a653e385f1e57618f126ff23fae8
 var acciones = [
         [
             "Acciones"
@@ -68,15 +61,8 @@ var acciones = [
             "Retiro",
             "Verificación"
         ]
-<<<<<<< HEAD
 ];
 /*var jerarquiaDeAcciones = ["Acciones","Reposición","Limpieza","Verificación","Retiro",
-=======
-        
-]
-
-/*var acciones = ["Acciones","Reposición","Limpieza","Verificación","Retiro",
->>>>>>> 66f087d6e7f4a653e385f1e57618f126ff23fae8
 "Reparación","Insalación de TAG","Reubicación","Instalación de ID",
 "Ploteo"];*/
 var html;
@@ -135,9 +121,9 @@ var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", 
 [5572.0, 4349.0, "ACHA, MARIANO, GRAL.", 1693.0, 15.0, "VILLA ORTUZAR", "01-06-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
 [5789.0, 4211.0, "ACHA, MARIANO, GRAL.", 1747.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 3.0]];
 
-<<<<<<< HEAD
 //Variables globales que van a hacer utilizadas para hacer el paquete de envío a Google App Script
 var accion, estado;
+var nuevaCampana, nuevaCuadra;
 
 function sacarJerarquia(){
     for(var i = 0; estados.length > i; i++){
@@ -150,10 +136,6 @@ function sacarJerarquia(){
         }
     }
 }//Función que ayuda a definir la jerarquia de las acciones y los estados a colocar.
-=======
-
-const master = [[1,"SAP",22754,2057,"2018-08-04","2017-12-13","Quemada","Reposición"],[2,"SAP",22754,2057,"04-08-2018","2018-09-13","Quemada","Reposición"],[3,"SAP",22754,2057,"2020-05-02","2020-05-02","Quemada","Reposición"],[4,"SAP",5462,5794,"04-08-2018","13-12-2015","Quemada","Reposición"],[5,"SAP",5462,5794,"04-08-2018","13-12-2018","Quemada","Reposición"]]
->>>>>>> 66f087d6e7f4a653e385f1e57618f126ff23fae8
 
 function buscarCalleAltura(valor){
     for(var index = 0; padron.length > index; index++ ){
@@ -424,7 +406,6 @@ function limpiar(){
 
 function limpiarCarga(){
     document.getElementById("carga").innerHTML = htmlcargar;
-<<<<<<< HEAD
 }
 
 function prepararPaquete(){
@@ -450,37 +431,21 @@ function enviar(){
     sacarJerarquia();
     alert("El estado mayor es: " + estado + " y la acción mayor es: " + accion);
 }
-=======
 
-}
-
-/*
-
-function reiteraciones(idCuadra) {
-
-  const reiteraciones = master.filter(registro => registro [3] == idCuadra && registro [7]=="Reposición");
-    console.log(reiteraciones);
-    if(reiteraciones.length > 1){
-
-        const diferenciaDias = diasDeDiferencia(reiteraciones[reiteraciones.length-2][5],reiteraciones[reiteraciones.length-1][5]);
-      
-        return (diferenciaDias / 2) > 180; 
+function verificarID(){
+    var calle = document.getElementById("calle").value;
+    var altura = document.getElementById("altura").value;
+    var campana = document.getElementById("id").value;
+    var cuadra = idDeCuadra(calle,altura);
+    for(var i of padron ){
+        if(padron[i][1] == cuadra || padron[i][0] == campana){
+            if(padron[i][0] != campana){
+                nuevaCampana = campana;
+                return alert("HA CAMBIADO EL ID DE CAMPANA EL VIEJO ID ES: " + padron[i][0] + " Y EL NUEVO " + nuevaCampana );
+            } else if(padron[i][1] != cuadra){
+                nuevaCuadra = cuadra;
+                return alert("HA CAMBIADO EL ID DE CUADRA EL VIEJO ID ES: " + padron[i][1] + " Y EL NUEVO " + nuevaCuadra );
+            }
+        }
     }
-     return true;
-} // Dado un ID de campana busca en el master las reiteraciones y retorna la cantidad
-
-function diasDeDiferencia(fecha1,fecha2){
-    console.log(fecha1);
-    console.log(fecha2);
-    const fechaInicial = new Date(fecha1).getTime();
-    const fechaFinal = new Date(fecha2).getTime();
-
-    console.log(fechaFinal);
-    console.log(fechaInicial);
-
-    return (fechaFinal - fechaInicial)/(1000*60*60*24);
-
-} // Obtiene la franja de días que existen entre la primer reposicion de una campana y el día de hoy
-
-*/
->>>>>>> 66f087d6e7f4a653e385f1e57618f126ff23fae8
+}
