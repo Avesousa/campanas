@@ -2,7 +2,7 @@ var clave = "abc123";
 var idCampana;
 var verificacionDeCampana;
 var estados = ["Estados","La campana no está","Quemada","Rota","Volcada","Fuera de posición",
-"Falta de limpieza","Sin TAG","Sin ID","Sin ploteo","Falla Inexistente","Planificación"];
+"Falta de limpieza","Sin TAG","Sin ID","Sin ploteo","Falla Inexistente","Planificación","Operable"];
 var acciones = [
         [
             "Acciones"
@@ -437,6 +437,9 @@ function verificarID(){
     var altura = document.getElementById("altura").value;
     var campana = document.getElementById("id").value;
     var cuadra = idDeCuadra(calle,altura);
+    alturaFinal = altura;
+    calleFinal = calle;
+
     for(var i of padron ){
         if(padron[i][1] == cuadra || padron[i][0] == campana){
             if(padron[i][0] != campana){
@@ -445,6 +448,8 @@ function verificarID(){
             } else if(padron[i][1] != cuadra){
                 nuevaCuadra = cuadra;
                 return alert("HA CAMBIADO EL ID DE CUADRA EL VIEJO ID ES: " + padron[i][1] + " Y EL NUEVO " + nuevaCuadra );
+            } else { 
+              return ;
             }
         }
     }
