@@ -473,7 +473,7 @@ return fecha;
 
 
 /*Agregue este swtch para que devuelva el string con el dato para la última celda del master, pensando que es mejor aclarar de cual de las tres opciones proviene el registro */
-function switchOrigen() {
+function switchDeOrigen() {
 
     const origen = document.getElementById("opciones").value;
 
