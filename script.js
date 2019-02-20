@@ -126,7 +126,7 @@ var accion, estado;
 var nuevaCampana, nuevaCuadra;
 
 function sacarJerarquia(){
-    for(var i = 0; estados.length > i; i++){
+    for(var i = 1; estados.length > i; i++){
         for(var j = 0; estadoAccionCargados.length > j; j++){
             if(estados[i] == estadoAccionCargados[j][0]){
                 accion = estadoAccionCargados[j][1];
@@ -138,7 +138,7 @@ function sacarJerarquia(){
 }//Función que ayuda a definir la jerarquia de las acciones y los estados a colocar.
 
 function buscarCalleAltura(valor){
-    for(var index = 0; padron.length > index; index++ ){
+    for(var index = 0; index < padron.length ; index++ ){
         if(valor == padron[index][0]){
             document.getElementById("calle").value = padron[index][2];
             document.getElementById("altura").value = padron[index][3];
@@ -259,42 +259,45 @@ function preCarga() {
 }// Hace la conexión con google.
 
 function validarOpciones() {
+    
     limpiarCarga();
+
     var opcion = document.getElementById("opcion").value;
+    
     switch (opcion) {
         case '1':
-        document.getElementById("casosAbiertos").style.display = "inline";
-        document.getElementById("carga").style.display = "none";
-        document.getElementById("nSap").style.display = "none";
-        document.getElementById("referencia").type = "hidden";
-        mostrarReclamosAbiertos();
-        break;
+          document.getElementById("casosAbiertos").style.display = "inline";
+          document.getElementById("carga").style.display = "none";
+          document.getElementById("nSap").style.display = "none";
+          document.getElementById("referencia").type = "hidden";
+          mostrarReclamosAbiertos();
+          break;
 
         case '2':
-        document.getElementById("carga").style.display = "inline";
-        document.getElementById("nSap").style.display = "inline";
-        document.getElementById("nSap").innerText = "Número de Referencia";
-        document.getElementById("casosAbiertos").style.display = "none";
-        document.getElementById("referencia").type = "text";
-        document.getElementById("referencia").value = "NO APLICA";
-        document.getElementById("referencia").disabled = true;
-        break;
+          document.getElementById("carga").style.display = "inline";
+          document.getElementById("nSap").style.display = "inline";
+          document.getElementById("nSap").innerText = "Número de Referencia";
+          document.getElementById("casosAbiertos").style.display = "none";
+          document.getElementById("referencia").type = "text";
+          document.getElementById("referencia").value = "NO APLICA";
+          document.getElementById("referencia").disabled = true;
+          break;
         
         case '3':
-        document.getElementById("carga").style.display = "inline";
-        document.getElementById("nSap").style.display = "inline";
-        document.getElementById("nSap").innerText = "Número de SAP";
-        document.getElementById("referencia").type = "text";
-        document.getElementById("referencia").disabled = false;
-        document.getElementById("casosAbiertos").style.display = "none";
-        break;
+          document.getElementById("carga").style.display = "inline";
+          document.getElementById("nSap").style.display = "inline";
+          document.getElementById("nSap").innerText = "Número de SAP";
+          document.getElementById("referencia").type = "text";
+          document.getElementById("referencia").disabled = false;
+          document.getElementById("casosAbiertos").style.display = "none";
+          break;
         
         case '0':
-        document.getElementById("carga").style.display = "none";
-        document.getElementById("nSap").style.display = "none";
-        document.getElementById("referencia").type = "hidden";
-        document.getElementById("casosAbiertos").style.display = "none";
-        break;
+          document.getElementById("carga").style.display = "none";
+          document.getElementById("nSap").style.display = "none";
+          document.getElementById("referencia").type = "hidden";
+          document.getElementById("casosAbiertos").style.display = "none";
+          break;
     }
     agregarEstado();
 
@@ -454,3 +457,71 @@ function verificarID(){
         }
     }
 }
+
+
+
+/******************Función para armar el paquete a enviar al master***********************************************/
+/*Esta funcion retorna el numero de referencia en el caso de que se*/
+function segunTipoFecha(){
+
+  var fecha = 0;
+
+/*Agregar función*/ 
+return fecha;
+
+}
+
+
+/*Agregue este swtch para que devuelva el string con el dato para la última celda del master, pensando que es mejor aclarar de cual de las tres opciones proviene el registro */
+function switchOrigen() {
+
+    const origen = document.getElementById("opciones").value;
+
+    switch(origen){
+
+        case '1':
+
+           return "Con referencia";
+
+        case '2':
+
+           return "Sin referencia";
+
+        case '3':
+
+           return "Sap";
+    }
+        
+
+}
+
+/* Función para armar el paquete que se va a escribir en el master */
+function enviarRespuestaMaster() {
+    
+
+    const referencia = document.getElementById("referencia").value;
+    const calle = document.getElementById("calle").value;
+    const altura = document.getElementById("altura").value;
+    const campana = document.getElementById("id").value;
+    const cuadra = idDeCuadra(calle,altura);
+    const fechaReclamo = segunTipoFecha(); // Habria que pensar una función que en caso de que sea sin referencia devuelva la misma fecha de hoy, y para los otros dos casos la fecha del reclamo
+    const hoy =  new Date();
+    const fechaContestacion = hoy.getDate() + "/" + (hoy.getMonth()+1)+"/"+hoy.getFullYear();
+    const origen = switchDeOrigen();
+    const respuestaMaster = [];
+
+
+    extraerEstadoAccion();
+  
+    for(i=0;i < estadoAccionCargados.length;i++){
+    
+       respuestaMaster.push([referencia,cuadra,campana,fechaReclamo,fechaContestacion].concat(estadoAccionCargados[i].concat(origen)));
+
+    }
+
+
+    return respuestaMaster;
+
+}
+
+
