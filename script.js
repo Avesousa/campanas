@@ -109,6 +109,7 @@ var idCalles = [[30319.0, "NEWBERY, JORGE", 0.0, 0.0, 2801.0, 2859.0], [30320.0,
 [30322.0, "NEWBERY, JORGE", 0.0, 0.0, 2751.0, 2799.0], [30321.0, "NEWBERY, JORGE", 2752.0, 2800.0, 0.0, 0.0], 
 [30326.0, "NEWBERY, JORGE", 0.0, 0.0, 2661.0, 2699.0], [30324.0, "NEWBERY, JORGE", 0.0, 0.0, 2701.0, 2749.0], [30325.0, "NEWBERY, JORGE", 2662.0, 2700.0, 0.0, 0.0], 
 [30323.0, "NEWBERY, JORGE", 2702.0, 2750.0, 0.0, 0.0], [3157.0, "3 DE FEBRERO", 900.00, 998.0, 901.0, 999.00]];
+
 var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", "30-04-2015", "Mecánica", "rectangular", "Ok", "link foto", "Activa", 4.0], 
 [4617.0, 2920.0, "3 DE FEBRERO", 1261.0, 14.0, "PALERMO CAÑITAS", "30-04-2015", "Mecánica", "redonda", "Rota", "link foto", "Activa", 4.0], 
 [2452.0, 21167.0, "ACASSUSO", 5767.0, 9.0, "LINIERS", "07-11-2014", "Mecánica", "redonda", "Quemada", "link foto", "Activa", 4.0], 
@@ -475,7 +476,7 @@ return fecha;
 /*Agregue este swtch para que devuelva el string con el dato para la última celda del master, pensando que es mejor aclarar de cual de las tres opciones proviene el registro */
 function switchDeOrigen() {
 
-    const origen = document.getElementById("opciones").value;
+    const origen = document.getElementById("opcion").value;
 
     switch(origen){
 
@@ -515,7 +516,7 @@ function enviarRespuestaMaster() {
   
     for(i=0;i < estadoAccionCargados.length;i++){
     
-       respuestaMaster.push([referencia,cuadra,campana,fechaReclamo,fechaContestacion].concat(estadoAccionCargados[i].concat(origen)));
+       respuestaMaster.push([referencia,cuadra,campana,fechaReclamo,fechaContestacion].concat([estadoAccionCargados[i],origen]));
 
     }
 
