@@ -99,18 +99,22 @@
         var estados = ["Estados","La campana no está","Quemada","Rota","Volcada","Fuera de posición",
         "Falta de limpieza","Sin TAG","Sin ID","Sin ploteo","Falla Inexistente","Planificación","Operable"];
         var acciones = [[ "Acciones"],
-            ["Reposición","Verificación"],
-            ["Reposición","Retiro","Verificación"],
-            ["Reposición","Retiro","Reparación","Verificación"],
-            ["Reubicación","Retiro","Verificación"],
-            ["Reubicación","Verificación"],
-            ["Limpieza","Verificación"],
-            ["Instalación de TAG","Verificación"],
-            ["Instalación de ID","Verificación"],
-            ["Ploteo","Verificación"],
+            ["Verificación","Reposición"],
+            ["Verificación","Reposición","Retiro"],
+            ["Verificación","Reposición","Retiro","Reparación"],
+            ["Verificación","Reubicación","Retiro"],
+            ["Verificación","Reubicación"],
+            ["Verificación","Limpieza"],
+            ["Verificación","Instalación de TAG"],
+            ["Verificación","Instalación de ID"],
+            ["Verificación","Ploteo"],
             ["Verificación"],
             ["Retiro","Instalación de campana","Instalación de contenedor","Reubicación"],
-            ["Retiro", "Verificación"]];
+            ["Verificación","Retiro"]];
+
+
+
+
         var estadoAccionCargados = [];
         var reclamosAbiertos = [];
         var idCalles = [];
@@ -340,8 +344,8 @@
             var origen = document.getElementById("origen").value;*/
             var id = document.getElementById("id").value;
             verificarID(calle,altura);
-            if(!decidirCambioId()){
-                return validacion(false,"Haz indicado reposición, y no haz ingresado un nuevo cambio de ID","validador");}
+            if(!decidirCambioId()){return validacion(false,"Haz indicado reposición, y no haz ingresado un nuevo cambio de ID","validador");}}
+            
             var estado = sacarJerarquia();
             crearMaster();
         }
@@ -408,14 +412,10 @@
         console.log(div);
         var selector = document.createElement("select");
         selector.setAttribute("id","a"+cantidad);
+        selector.setAttribute("oninput","verificarAccion(this.value,this);")
         div.appendChild(selector);
         if(cantidad == 1) {
-            console.log("Entro al if de cantidad");
-            var boton = document.createElement("BUTTON");
-            boton.setAttribute("id","agregarMas");
-            boton.setAttribute("onclick","agregarEstado();");
-            boton.innerHTML = "+";
-            div.appendChild(boton);
+            crearBotonAgregarMas(div,cantidad);
         }
         console.log("***EN AGREGAR ACCION***")
         actualizarAcciones(cantidad);
@@ -432,6 +432,7 @@
                 crearOpciones(selecta,acciones[i])
             }
         } 
+        verificarAccion(selecta.value,selecta);
         }
         function extraerEstadoAccion(){
         for(var i = 1; i <= 3; i++){
@@ -461,6 +462,40 @@
                 return "OK"
             }
             }//Función que ayuda a definir la jerarquia de las acciones y los estados a colocar.
+        function verificarAccion(valor,accion){
+            console.log("REALIZANDO VERIFICACIÓN");
+            var array = ["Retiro", "Reposición", "Instalación de campana", "Instalación de contenedor"];
+            var botonVer = (document.getElementById("agregarMas") == undefined && document.getElementById("agregarMas") == null);
+            var divBoton = document.getElementById("ea1");
+            console.log(botonVer);
+            if(array.some(elemento=> elemento == valor)){
+                console.log("ENTRO EN EL IF");
+                var contenedor = document.getElementById("estadoAccion");
+                var cantidad = contenedor.childElementCount;
+                var div = document.getElementById("ea"+cantidad);
+                var estado = document.getElementById("e"+cantidad);
+                estado.id = "e1";
+                estado.setAttribute("oninput","actualizarAcciones(1)");
+                accion.id = "a1";
+                div.id = "ea1";
+                console.log(estado);
+                div.innerHTML = "";
+                contenedor.innerHTML = "";
+                div.appendChild(estado);
+                div.appendChild(accion); 
+                contenedor.appendChild(div);        
+            }else{
+                if(botonVer)
+                    crearBotonAgregarMas(divBoton);
+            }
+        }
+        function crearBotonAgregarMas(div){
+            var boton = document.createElement("BUTTON");
+            boton.setAttribute("id","agregarMas");
+            boton.setAttribute("onclick","agregarEstado();");
+            boton.innerHTML = "+";
+            div.appendChild(boton);
+        }
 
         //FUNCIONES GLOBALES PARA LA MAYOR RÁPIDEZ Y EFICACIA A LA HORA DE REALIZAR LAS CARGAS
             
