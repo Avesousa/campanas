@@ -111,10 +111,6 @@
             ["Verificación"],
             ["Retiro","Instalación de campana","Instalación de contenedor","Reubicación"],
             ["Verificación","Retiro"]];
-
-
-
-
         var estadoAccionCargados = [];
         var reclamosAbiertos = [];
         var idCalles = [];
@@ -364,6 +360,7 @@
             if(acciones.length > 0){
                 if(viejaCampana != "" && viejaCampana != nuevaCampana){
                     filaEditable[0][0] = nuevaCampana;
+                    crearCambiosDeId();
                     return true;
                 } else{
                     return false;
@@ -372,28 +369,27 @@
             return true;
         }
         function decidirCraciones(){
-            var retiro = estadoAccionCargados.filter(elemento => elemento[1] == "Retiro");
-            var reposicion = estadoAccionCargados.filter(elemento => elemento[1] == "Reposición");
-            var reubicación = estadoAccionCargados.filter(elemento => elemento[1] == "Reubicación") ;
-            if(retiro.length > 0){}
-            if(reposicion.length > 0){}
-            if(reubicación.length > 0){}
+            var retiro = contarAccion(estadoAccionCargados.filter(elemento => elemento[1] == "Retiro"));
+            var reubicación = contarAccion(estadoAccionCargados.filter(elemento => elemento[1] == "Reubicación"));
+            
 
         }
-        function crearDarDeBaja(estado){
+        function contarAccion(array){
+            return array.length > 0;
+        }
+        function crearCambiosDeId(){
             var fechaHoy = new Date();
-            const idCampana = viejaCampana;
             const idCuadra = filaEditable[0][1];
-            const comuna = filaEditable[0][4];
-            const fechaInstalacion = filaEditable[0][6];
+            const idCampana = viejaCampana;
             const fechaBaja = (fechaHoy.getDate() + "/" + (fechaHoy.getMonth() + 1) + "/" + fechaHoy.getFullYear());
-            const motivo = estado;
-            return [idCampana,idCuadra,comuna,fechaInstalacion,fechaBaja,motivo];
+            return [idCuadra,idCampana,nuevaCampana,fechaBaja];
         }
         function crearNuevaFila(){
 
         }
-        
+        function crearDadasDeBaja(){
+            
+        }
         //FUNCIONES DESTINADAS A MODIFICAR, CALIFICAR Y CREAR ESTADOS Y ACCIONES
 
         function agregarEstado(){
