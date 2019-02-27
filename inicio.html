@@ -337,15 +337,10 @@
         function enviar(){
             var calle = document.getElementById("calle").value;
             var altura = document.getElementById("altura").value;
-            /*var referencia = document.getElementById("referencia").value;
-            var tipoCampana = document.getElementById("tipoCampana").value;
-            var problema = document.getElementById("problema").value;
-            var comuna = document.getElementById("comuna").value;
-            var origen = document.getElementById("origen").value;*/
             var id = document.getElementById("id").value;
             verificarID(calle,altura);
-            if(!decidirCambioId()){return validacion(false,"Haz indicado reposición, y no haz ingresado un nuevo cambio de ID","validador");}}
-            
+            if(!decidirCambioId()){return validacion(false,"Haz indicado reposición, y no haz ingresado un nuevo cambio de ID","validador");}
+
             var estado = sacarJerarquia();
             crearMaster();
         }
@@ -365,19 +360,26 @@
         }
 
         function decidirCambioId(){
-            for(var i = 0; estadoAccionCargados.length > i; i++){
-                if(estadoAccionCargados[i][1] == "Reposición"){
-                    if(viejaCampana != "" && viejaCampana != nuevaCampana){
-                        filaEditable[0][0] = nuevaCampana;
-                        return true;
-                    } else{
-                        return false;
-                    }
+            var acciones = estadoAccionCargados.filter(elemento => elemento[1] == "Reposición" );
+            if(acciones.length > 0){
+                if(viejaCampana != "" && viejaCampana != nuevaCampana){
+                    filaEditable[0][0] = nuevaCampana;
+                    return true;
+                } else{
+                    return false;
                 }
             }
             return true;
         }
+        function decidirCraciones(){
+            var retiro = estadoAccionCargados.filter(elemento => elemento[1] == "Retiro");
+            var reposicion = estadoAccionCargados.filter(elemento => elemento[1] == "Reposición");
+            var reubicación = estadoAccionCargados.filter(elemento => elemento[1] == "Reubicación") ;
+            if(retiro.length > 0){}
+            if(reposicion.length > 0){}
+            if(reubicación.length > 0){}
 
+        }
         function crearDarDeBaja(estado){
             var fechaHoy = new Date();
             const idCampana = viejaCampana;
@@ -391,6 +393,7 @@
         function crearNuevaFila(){
 
         }
+        
         //FUNCIONES DESTINADAS A MODIFICAR, CALIFICAR Y CREAR ESTADOS Y ACCIONES
 
         function agregarEstado(){
