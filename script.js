@@ -68,65 +68,18 @@ var acciones = [
 var html;
 var htmlcargar;
 var estadoAccionCargados = [];
-var reclamosAbiertos = [
-    ["A001", "OTRO", "COSTA RICA", 4150.0, 14.0, "Mecánica", "Falta de limpieza", "Limpieza/desgrafitización", "10/09/2018", ""],
-    ["A008", "SAP", "SUCRE ANTONIO JOSE DE, MCAL.", 2917.0, 13.0, "Manual", "Rota", "Retirar", "12/09/2018", "Campana manual sin puerta retirar"],
-    ["A015", "MAIL", "DORREGO AV.", 2248.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "13/09/2018", "Imagen"],
-    ["A023", "MAIL", "MANSILLA LUCIO NORBERTO GENERAL", 3800.0, 14.0, "Mecánica", "Fuera de posición", "Reubicar", "17/09/2018", "Reubicar según padron en altura 3741"],
-    ["A033", "ENTE", "CASTAÑON", 3390.0, 8.0, "Mecánica", "Rota", "Reparar gancho", "16/09/2018", ""],
-    ["A042", "OTRO", "THAMES", 2078.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "19/09/2018", ""],
-    ["A048", "OTRO", "LA PAMPA", 3656.0, 13.0, "Mecánica", "Sin TAG", "Poner TAG", "19/09/2018", "Verificar N° de TAGS"],
-    ["A001", "OTRO", "COSTA RICA", 4150.0, 14.0, "Mecánica", "Falta de limpieza", "Limpieza/desgrafitización", "10/09/2018", ""],
-    ["A008", "SAP", "SUCRE ANTONIO JOSE DE, MCAL.", 2917.0, 13.0, "Manual", "Rota", "Retirar", "12/09/2018", "Campana manual sin puerta retirar"],
-    ["A015", "MAIL", "DORREGO AV.", 2248.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "13/09/2018", "Imagen"],
-    ["A023", "MAIL", "MANSILLA LUCIO NORBERTO GENERAL", 3800.0, 14.0, "Mecánica", "Fuera de posición", "Reubicar", "17/09/2018", "Reubicar según padron en altura 3741"],
-    ["A033", "ENTE", "CASTAÑON", 3390.0, 8.0, "Mecánica", "Rota", "Reparar gancho", "16/09/2018", ""],
-    ["A042", "OTRO", "THAMES", 2078.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "19/09/2018", ""],
-    ["A048", "OTRO", "LA PAMPA", 3656.0, 13.0, "Mecánica", "Sin TAG", "Poner TAG", "19/09/2018", "Verificar N° de TAGS"],
-    ["A001", "OTRO", "COSTA RICA", 4150.0, 14.0, "Mecánica", "Falta de limpieza", "Limpieza/desgrafitización", "10/09/2018", ""],
-    ["A008", "SAP", "SUCRE ANTONIO JOSE DE, MCAL.", 2917.0, 13.0, "Manual", "Rota", "Retirar", "12/09/2018", "Campana manual sin puerta retirar"],
-    ["A015", "MAIL", "DORREGO AV.", 2248.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "13/09/2018", "Imagen"],
-    ["A023", "MAIL", "MANSILLA LUCIO NORBERTO GENERAL", 3800.0, 14.0, "Mecánica", "Fuera de posición", "Reubicar", "17/09/2018", "Reubicar según padron en altura 3741"],
-    ["A033", "ENTE", "CASTAÑON", 3390.0, 8.0, "Mecánica", "Rota", "Reparar gancho", "16/09/2018", ""],
-    ["A042", "OTRO", "THAMES", 2078.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "19/09/2018", ""],
-    ["A048", "OTRO", "LA PAMPA", 3656.0, 13.0, "Mecánica", "Sin TAG", "Poner TAG", "19/09/2018", "Verificar N° de TAGS"],
-    ["A001", "OTRO", "COSTA RICA", 4150.0, 14.0, "Mecánica", "Falta de limpieza", "Limpieza/desgrafitización", "10/09/2018", ""],
-    ["A008", "SAP", "SUCRE ANTONIO JOSE DE, MCAL.", 2917.0, 13.0, "Manual", "Rota", "Retirar", "12/09/2018", "Campana manual sin puerta retirar"],
-    ["A015", "MAIL", "DORREGO AV.", 2248.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "13/09/2018", "Imagen"],
-    ["A023", "MAIL", "MANSILLA LUCIO NORBERTO GENERAL", 3800.0, 14.0, "Mecánica", "Fuera de posición", "Reubicar", "17/09/2018", "Reubicar según padron en altura 3741"],
-    ["A033", "ENTE", "CASTAÑON", 3390.0, 8.0, "Mecánica", "Rota", "Reparar gancho", "16/09/2018", ""],
-    ["A042", "OTRO", "THAMES", 2078.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "19/09/2018", ""],
-    ["A048", "OTRO", "LA PAMPA", 3656.0, 13.0, "Mecánica", "Sin TAG", "Poner TAG", "19/09/2018", "Verificar N° de TAGS"],
-    ["A001", "OTRO", "COSTA RICA", 4150.0, 14.0, "Mecánica", "Falta de limpieza", "Limpieza/desgrafitización", "10/09/2018", ""],
-    ["A008", "SAP", "SUCRE ANTONIO JOSE DE, MCAL.", 2917.0, 13.0, "Manual", "Rota", "Retirar", "12/09/2018", "Campana manual sin puerta retirar"],
-    ["A015", "MAIL", "DORREGO AV.", 2248.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "13/09/2018", "Imagen"],
-    ["A023", "MAIL", "MANSILLA LUCIO NORBERTO GENERAL", 3800.0, 14.0, "Mecánica", "Fuera de posición", "Reubicar", "17/09/2018", "Reubicar según padron en altura 3741"],
-    ["A033", "ENTE", "CASTAÑON", 3390.0, 8.0, "Mecánica", "Rota", "Reparar gancho", "16/09/2018", ""],
-    ["A042", "OTRO", "THAMES", 2078.0, 14.0, "Mecánica", "Volcada", "Poner en posición", "19/09/2018", ""],
-    ["A048", "OTRO", "LA PAMPA", 3656.0, 13.0, "Mecánica", "Sin TAG", "Poner TAG", "19/09/2018", "Verificar N° de TAGS"]
-];;
-var idCalles = [[30319.0, "NEWBERY, JORGE", 0.0, 0.0, 2801.0, 2859.0], [30320.0, "NEWBERY, JORGE", 2802.0, 2860.0, 0.0, 0.0], 
-[30322.0, "NEWBERY, JORGE", 0.0, 0.0, 2751.0, 2799.0], [30321.0, "NEWBERY, JORGE", 2752.0, 2800.0, 0.0, 0.0], 
-[30326.0, "NEWBERY, JORGE", 0.0, 0.0, 2661.0, 2699.0], [30324.0, "NEWBERY, JORGE", 0.0, 0.0, 2701.0, 2749.0], [30325.0, "NEWBERY, JORGE", 2662.0, 2700.0, 0.0, 0.0], 
-[30323.0, "NEWBERY, JORGE", 2702.0, 2750.0, 0.0, 0.0], [3157.0, "3 DE FEBRERO", 900.00, 998.0, 901.0, 999.00]];
-var padron = [[2426.0, 3157.0, "3 DE FEBRERO", 945.0, 14.0, "PALERMO CAÑITAS", "30-04-2015", "Mecánica", "rectangular", "Ok", "link foto", "Activa", 4.0], 
-[4617.0, 2920.0, "3 DE FEBRERO", 1261.0, 14.0, "PALERMO CAÑITAS", "30-04-2015", "Mecánica", "redonda", "Rota", "link foto", "Activa", 4.0], 
-[2452.0, 21167.0, "ACASSUSO", 5767.0, 9.0, "LINIERS", "07-11-2014", "Mecánica", "redonda", "Quemada", "link foto", "Activa", 4.0], 
-[7386.0, 22594.0, "ACASSUSO", 6365.0, 9.0, "LINIERS", "21-08-2014", "Mecánica", "redonda", "Quemada", "link foto", "Activa", 4.0], 
-[2057.0, 22754.0, "ACASSUSO", 6485.0, 9.0, "LINIERS", "21-08-2014", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 6.0], 
-[2053.0, 23457.0, "ACASSUSO", 6997.0, 9.0, "LINIERS", "21-08-2014", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
-[5794.0, 5462.0, "ACHA, MARIANO, GRAL.", 1013.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
-[5557.0, 5169.0, "ACHA, MARIANO, GRAL.", 1179.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
-[5569.0, 5022.0, "ACHA, MARIANO, GRAL.", 1235.0, 15.0, "VILLA ORTUZAR", "01-06-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
-[5572.0, 4349.0, "ACHA, MARIANO, GRAL.", 1693.0, 15.0, "VILLA ORTUZAR", "01-06-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 2.0], 
-[5789.0, 4211.0, "ACHA, MARIANO, GRAL.", 1747.0, 15.0, "VILLA ORTUZAR", "31-05-2017", "Mecánica", "rectangular", "Quemada", "link foto", "Activa", 3.0]];
+var reclamosAbiertos;
+var idCalles;
+var padron;
 
 //Variables globales que van a hacer utilizadas para hacer el paquete de envío a Google App Script
 var accion, estado;
 var nuevaCampana, nuevaCuadra;
 
+
+
 function sacarJerarquia(){
-    for(var i = 0; estados.length > i; i++){
+    for(var i = 1; estados.length > i; i++){
         for(var j = 0; estadoAccionCargados.length > j; j++){
             if(estados[i] == estadoAccionCargados[j][0]){
                 accion = estadoAccionCargados[j][1];
@@ -138,7 +91,7 @@ function sacarJerarquia(){
 }//Función que ayuda a definir la jerarquia de las acciones y los estados a colocar.
 
 function buscarCalleAltura(valor){
-    for(var index = 0; padron.length > index; index++ ){
+    for(var index = 0; index < padron.length ; index++ ){
         if(valor == padron[index][0]){
             document.getElementById("calle").value = padron[index][2];
             document.getElementById("altura").value = padron[index][3];
@@ -259,42 +212,45 @@ function preCarga() {
 }// Hace la conexión con google.
 
 function validarOpciones() {
+    
     limpiarCarga();
+
     var opcion = document.getElementById("opcion").value;
+    
     switch (opcion) {
         case '1':
-        document.getElementById("casosAbiertos").style.display = "inline";
-        document.getElementById("carga").style.display = "none";
-        document.getElementById("nSap").style.display = "none";
-        document.getElementById("referencia").type = "hidden";
-        mostrarReclamosAbiertos();
-        break;
+          document.getElementById("casosAbiertos").style.display = "inline";
+          document.getElementById("carga").style.display = "none";
+          document.getElementById("nSap").style.display = "none";
+          document.getElementById("referencia").type = "hidden";
+          mostrarReclamosAbiertos();
+          break;
 
         case '2':
-        document.getElementById("carga").style.display = "inline";
-        document.getElementById("nSap").style.display = "inline";
-        document.getElementById("nSap").innerText = "Número de Referencia";
-        document.getElementById("casosAbiertos").style.display = "none";
-        document.getElementById("referencia").type = "text";
-        document.getElementById("referencia").value = "NO APLICA";
-        document.getElementById("referencia").disabled = true;
-        break;
+          document.getElementById("carga").style.display = "inline";
+          document.getElementById("nSap").style.display = "inline";
+          document.getElementById("nSap").innerText = "Número de Referencia";
+          document.getElementById("casosAbiertos").style.display = "none";
+          document.getElementById("referencia").type = "text";
+          document.getElementById("referencia").value = "NO APLICA";
+          document.getElementById("referencia").disabled = true;
+          break;
         
         case '3':
-        document.getElementById("carga").style.display = "inline";
-        document.getElementById("nSap").style.display = "inline";
-        document.getElementById("nSap").innerText = "Número de SAP";
-        document.getElementById("referencia").type = "text";
-        document.getElementById("referencia").disabled = false;
-        document.getElementById("casosAbiertos").style.display = "none";
-        break;
+          document.getElementById("carga").style.display = "inline";
+          document.getElementById("nSap").style.display = "inline";
+          document.getElementById("nSap").innerText = "Número de SAP";
+          document.getElementById("referencia").type = "text";
+          document.getElementById("referencia").disabled = false;
+          document.getElementById("casosAbiertos").style.display = "none";
+          break;
         
         case '0':
-        document.getElementById("carga").style.display = "none";
-        document.getElementById("nSap").style.display = "none";
-        document.getElementById("referencia").type = "hidden";
-        document.getElementById("casosAbiertos").style.display = "none";
-        break;
+          document.getElementById("carga").style.display = "none";
+          document.getElementById("nSap").style.display = "none";
+          document.getElementById("referencia").type = "hidden";
+          document.getElementById("casosAbiertos").style.display = "none";
+          break;
     }
     agregarEstado();
 
@@ -454,3 +410,71 @@ function verificarID(){
         }
     }
 }
+
+
+
+/******************Función para armar el paquete a enviar al master***********************************************/
+/*Esta funcion retorna el numero de referencia en el caso de que se*/
+function segunTipoFecha(){
+
+  var fecha = 0;
+
+/*Agregar función*/ 
+return fecha;
+
+}
+
+
+/*Agregue este swtch para que devuelva el string con el dato para la última celda del master, pensando que es mejor aclarar de cual de las tres opciones proviene el registro */
+function switchDeOrigen() {
+
+    const origen = document.getElementById("opcion").value;
+
+    switch(origen){
+
+        case '1':
+
+           return "Con referencia";
+
+        case '2':
+
+           return "Sin referencia";
+
+        case '3':
+
+           return "Sap";
+    }
+        
+
+}
+
+/* Función para armar el paquete que se va a escribir en el master */
+function enviarRespuestaMaster() {
+    
+
+    const referencia = document.getElementById("referencia").value;
+    const calle = document.getElementById("calle").value;
+    const altura = document.getElementById("altura").value;
+    const campana = document.getElementById("id").value;
+    const cuadra = idDeCuadra(calle,altura);
+    const fechaReclamo = segunTipoFecha(); // Habria que pensar una función que en caso de que sea sin referencia devuelva la misma fecha de hoy, y para los otros dos casos la fecha del reclamo
+    const hoy =  new Date();
+    const fechaContestacion = hoy.getDate() + "/" + (hoy.getMonth()+1)+"/"+hoy.getFullYear();
+    const origen = switchDeOrigen();
+    const respuestaMaster = [];
+
+
+    extraerEstadoAccion();
+  
+    for(i=0;i < estadoAccionCargados.length;i++){
+    
+       respuestaMaster.push([referencia,cuadra,campana,fechaReclamo,fechaContestacion].concat([estadoAccionCargados[i],origen]));
+
+    }
+
+
+    return respuestaMaster;
+
+}
+
+
