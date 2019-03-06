@@ -77,12 +77,19 @@
         <div id="validador" class="validacion"></div>
         <p id="nSap">Número de Referencia</p><br>
         <input type="text" id="referencia"><br>
-        <p>Colocar id actual de campana</p><br>
-        <input type="text" name="id" id="id" oninput="buscarCalleAltura(this.value);" onblur="verificarID();"><br>
-        <p>Calle</p><br>
-        <input type="text" id="calle" oninput="buscarIdCampana(); hacerMayus(this.value,'calle')" onblur="verificarID();"><br>
-        <p>Altura</p><br>
-        <input type="number" id="altura" oninput="buscarIdCampana();" onblur="verificacionDeIdCampana();" onblur="verificarID();"><br>
+        <p>Por cual dato deseas buscar:</p><br>
+        <label><input type="radio" name="idCalleAltura" value="0" oninput="seleccionarBuscador(this.value)"> ID de campana</label>
+        <label><input type="radio" name="idCalleAltura" value="1" oninput="seleccionarBuscador(this.value)"> Calle y altura</label>
+        <div id="cargasIdCalle" style="display: none;">
+            <div id="primerafase">
+                <p id="textoid">ID de campana</p><br>
+                <input type="text" name="id" id="id"><button id="botonid" onclick="realizarCambios(this)">Modificar</button><br>
+                <p id="textocalle">Calle</p><br>
+                <input type="text" id="calle" oninput="hacerMayus(this);"><button id="botonaltura" onclick="realizarCambios(this)">Modificar</button><br>
+                <p id="textoaltura">Altura</p><br>
+                <input type="number" id="altura">
+            </div>
+        </div><br>
         <div id="estadoAccion">
         </div>
         <input type="hidden" id="tipoCampana">
@@ -116,6 +123,7 @@
         var idCalles = [];
         var padron = [];
         var filaEditable = [];
+        var banderaTipo;
 
         //Variables globales que van a hacer utilizadas para hacer el paquete de envío a Google App Script
         var nuevaCampana, nuevaCuadra, viejaCampana = "", viejaCuadra = "", nuevaFila = false;
@@ -135,12 +143,14 @@
         }
         }
         function preCarga() {
+            console.log("entro en precargar");
             google.script.run.withSuccessHandler(function(e){
                 padron = e;
             }).arrayPadron();
             
             google.script.run.withSuccessHandler(function(e){
                 idCalles = e;
+                console.log(idCalles);
             }).arrayCallejero();
             
             google.script.run.withSuccessHandler(function(e){
@@ -192,58 +202,113 @@
         /**************************BUSCADORES DE INFORMACIÓN *******************************/
         //Funciones que van a permitir buscar valores dentro de los arrays.
         
-        function buscarCalleAltura(valor){
-            var calle = document.getElementById("calle");
-            var altura = document.getElementById("altura");
-            var filtro = padron.filter(elemento => elemento[0] == valor);
-            if(filtro.length == 1){
-                calle.value = filtro[0][2];
-                altura.value = filtro[0][3];
-            } else if(filtro.length > 1){
-                console.log("HACER ALGO PARA CUANDO HAYAN DOS ID DE CAMPANAS IGUALES EN EL PADRON");
-            } else{
-
-                calle.value = "";
-                altura.value = "";
+        function buscadorDeCalle(valor){
+            for(var index = 0; index < padron.length ; index++ ){
+                if(valor == padron[index][0]){
+                    document.getElementById("calle").value = padron[index][2];
+                    return document.getElementById("altura").value = padron[index][3];
+                }
             }
+            document.getElementById("calle").value = "";
+            document.getElementById("altura").value = "";
+        }
+        function buscadorDeID(){
+            var altura = document.getElementById("altura");
+            var calle = document.getElementById("calle");
+            if(calle.value != "" && altura.value != ""){
+                var cuadra = idDeCuadra(calle.value,altura.value);
+                if(!cuadra){
+                    return document.getElementById("id").value = "";
+                   }
+                document.getElementById("id").value = idDeCampana(cuadra);
+            } 
+            return document.getElementById("id").value = ""
         }
 
-        function buscarCalleAltura(valor){
-            var calle = document.getElementById("calle");
+        function seleccionarBuscador(valor){
             var altura = document.getElementById("altura");
-            var cuadra = idDeCuadra(calle.value,altura.value);
-            var filtroCuadra = padron.filter(elemento => elemento[1] == cuadra);
-            var filtroCampana = padron.filter(elemento =>elemento[0] == campana.value);
-            if(filtroCampana < 1){document.getElementById("validador").style.display = "none";}
-            else{
-                calle.value = filtroCampana[0][2];
-                altura.value = filtroCampana[0][3];
-            }
-            if(filtroCuadra.length>0){
-                {return validacion(true,"¡Haz ingresado un nuevo ID DE CAMPANA para la calle y altura ingresada!","validador");}
-            }
-        }
+            var calle = document.getElementById("calle");
+            var id = document.getElementById("id");
+            var cargas = document.getElementById("cargasIdCalle");
+            var botonid = document.getElementById("botonid");
+            var botonaltura = document.getElementById("botonaltura");
+            if(valor == 0){
+                altura.disabled = true;
+                calle.disabled = true;
+                id.disabled = false;
+                botonid.style.display = "none";
+                botonaltura.style.display = "block";
 
+            }else{     
+                altura.disabled = false;
+                calle.disabled = false;
+                id.disabled = true;
+                botonid.style.display = "block";
+                botonaltura.style.display = "none";
+            }
+            id.setAttribute("oninput","buscadorDeCalle(this.value);");
+            altura.setAttribute("oninput","buscadorDeID();");
+            calle.oninput = "buscadorDeID(); hacerMayus(this);";
+            botonid.disabled = false;
+            botonaltura.disabled = false;
+            cargas.style.display = "block";
+            banderaTipo = valor;
+            
+        }
+        function realizarCambios(boton){
+            var id = document.getElementById("id");
+            var altura = document.getElementById("altura");
+            var calle = document.getElementById("calle");
+            id.disabled = (!id.disabled);
+            altura.disabled = (!altura.disabled);
+            calle.disabled = (!calle.disabled);
+            console.log(altura.oninput);
+            console.log(calle.oninput);
+            console.log(id.oninput);
+            console.log(boton.onclick);
+            altura.oninput = "";
+            calle.oninput = "hacerMayus(this);";
+            id.oninput = "";
+            boton.disabled = true;
+
+        }
+        
         function buscadorDeInformacion(valor){
+
+            /*
             var altura = document.getElementById("altura");
             var calle = document.getElementById("calle");
             var campana = document.getElementById("id");
             var cuadra = idDeCuadra(calle.value,altura.value);
-            var filtroCuadra = padron.filter(elemento => elemento[1] == cuadra);
+            var filtroCuadra = padron.filter(elemento => ((cuadra != "") && elemento[1] == cuadra));
             var filtroCampana = padron.filter(elemento => ((campana.value != "") && (elemento[0] == campana.value)));
             var escrito = (campana.value != "");
             var escritoD = (altura.value != "" && calle.value != "");
             var escritoDireccion = (valor == "calle" || valor == "altura");
             var direccion = (filtroCuadra.length > 0);
             var existe = (filtroCampana.length > 0);
+            console.log(filtroCampana);
+            console.log(filtroCuadra);
+            console.log("escrito");
+            console.log(escrito);
+            console.log("escritoD");
+            console.log(escritoD);
+            console.log("escritoDireccion");
+            console.log(escritoDireccion);
+            console.log("direccion");
+            console.log(direccion);
+            console.log("existe");
+            console.log(existe);
+            console.log("Cuadra");
+            console.log(cuadra);
             if(!cuadra && escritoDireccion){
                 return document.getElementById("validador").style.display = "none";
             }
             else if(direccion && !escrito && escritoDireccion){
                 document.getElementById("validador").style.display = "none";
                 return campana.value = filtroCuadra[0][0];
-                }
-            else if(!direccion && !escrito){
+            }
+            else if(!direccion && !escrito && !escritoDireccion){
                 return validacion(false,"¡La calle y altura ingresado no está asociado a ninguna campana!","validador");}
             else if(direccion && !existe && escrito){
                 return verificarID(cuadra,campana.value,filtroCuadra);
@@ -251,17 +316,16 @@
             else if(!direccion && !existe && escrito && escritoD){
                 return verificarID(cuadra,campana.value,filtroCuadra);
             }
-            else if(!direccion && existe && !escritoDireccion){
+            else if(!direccion && existe && !escritoDireccion && !escritoD){
                 calle.value = filtroCampana[0][2];
                 altura.value = filtroCampana[0][3];
                 return document.getElementById("validador").style.display = "none";
             }
-            else if(direccion && existe){
-                if(filaCuadra[0][1] == filaCampana[0][1]){
-                    return document.getElementById("validador").style.display = "none";
-                }
+            else if(direccion && existe && (filtroCuadra[0][1] == filtroCampana[0][1])){
+                verificarID(cuadra,campana.value,filtroCuadra);
+                return document.getElementById("validador").style.display = "none";
             }
-
+            */
         }
 
         function idDeCuadra(calle,altura){
@@ -352,12 +416,24 @@
             }
         }
         function verificarID(cuadra,campana,valor){
+        console.log("COSAS VIEJAS");
+        console.log(viejaCampana);
+        console.log(viejaCuadra);
+        console.log(nuevaCampana);
+        console.log(nuevaCuadra);
+        console.log(nuevaFila);
         viejaCampana = "";
         viejaCuadra = "";
         nuevaCampana = cuadra;
         nuevaCuadra = campana;
         nuevaFila = false;
-        if(valor.length>1){
+        console.log("COSAS NUEVAS");
+        console.log(viejaCampana);
+        console.log(viejaCuadra);
+        console.log(nuevaCampana);
+        console.log(nuevaCuadra);
+        console.log(nuevaFila);
+        if(valor.length > 0){
             if(valor[0][1] == cuadra || valor[0][0] == campana){
                 filaEditable.push(valor[0]);
                 if(valor[0][0] != campana){
@@ -536,9 +612,8 @@
 
         //FUNCIONES GLOBALES PARA LA MAYOR RÁPIDEZ Y EFICACIA A LA HORA DE REALIZAR LAS CARGAS
             
-        function hacerMayus(valor,id){
-            var resultado = valor.toUpperCase();
-            document.getElementById(id).value = resultado;
+        function hacerMayus(valor){
+           return valor.value = valor.value.toUpperCase();
         }
         function clickear() {
         document.onkeyup = (function(e) {
