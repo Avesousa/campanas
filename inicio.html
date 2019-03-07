@@ -395,21 +395,16 @@
         }
         function verificarCambios(fila,campana,cuadra){
             if(!decidirCambioId()){return validacion(false,"Haz indicado reposición, y no haz ingresado un nuevo cambio de ID","validador");}
-            decidirRetiro(campana,cuadra);
+            if(!decidirRetiro(campana,cuadra)){return;}
             if(decidirReubicacion(fila,campana,cuadra)){return;}
-            else{
-
-            }
-                
-                if(decidirRetiro(campana,cuadra)){
-
-                }
+            decidirInstalacion();
         }
         function decidirReubicacion(fila,campana,cuadra){
             var reubicacion = estadoAccionCargados.filter(elemento => elemento[1] == "Reubicación");
             if(reubicacion.length > 0){
                 if(fila[0][1] != cuadra){
-                    crearDadasDeBaja(fila,cuadra);
+                    crearDadasDeBaja(fila);
+                    crearNuevaFila(campana,cuadra);
                     return true;
                 }
             } 
@@ -419,16 +414,35 @@
         function decidirRetiro(campana,cuadra){
             var retiro = estadoAccionCargados.filter(elemento => elemento[1] == "Retiro");
             if(retiro.length > 0){
-                if(!confirm("¿Estás intentando eliminar la campana del id " + campana + "?")){
-                    crearDadasDeBaja(fila,cuadra);
-                    return true;
-                } else {
+                if(confirm("¿Estás intentando eliminar la campana del id " + campana + "?")){
+                    crearDadasDeBaja(fila);
                     return false;
+                } else {
+                    return true;
                 }
 
             } return true;
         }
-
+        function decidirCambioId(){
+            var acciones = estadoAccionCargados.filter(elemento => elemento[1] == "Reposición" || elemento[1] == "Instalación de ID");
+            if(acciones.length > 0){
+                if(viejaCampana != "" && viejaCampana != nuevaCampana){
+                    filaEditable[0][0] = nuevaCampana;
+                    crearCambiosDeId();
+                    return true;
+                } else{
+                    return false;
+                }
+            }
+            return true;
+        }
+        function decidirInstalacion(campana,cuadra){
+            var instaladas = estadoAccionCargados.filter(elemento => elemento[1] == "Instalación de campana" || elemento[1] == "Instalación de contenedor"); 
+            if(instaladas.length > 0){
+                crearNuevaFila(campana,cuadra);
+                return;
+            }
+        }
         /*function verificarID(cuadra,campana,valor){
         console.log("COSAS VIEJAS");
         console.log(viejaCampana);
@@ -500,19 +514,6 @@
             }
         }
 
-        function decidirCambioId(){
-            var acciones = estadoAccionCargados.filter(elemento => elemento[1] == "Reposición" || elemento[1] == "Instalación de ID");
-            if(acciones.length > 0){
-                if(viejaCampana != "" && viejaCampana != nuevaCampana){
-                    filaEditable[0][0] = nuevaCampana;
-                    crearCambiosDeId();
-                    return true;
-                } else{
-                    return false;
-                }
-            }
-            return true;
-        }
         function decidirCreaciones(){
             var retiro = contarAccion(estadoAccionCargados.filter(elemento => elemento[1] == "Retiro"));
             var reubicación = contarAccion(estadoAccionCargados.filter(elemento => elemento[1] == "Reubicación"));
