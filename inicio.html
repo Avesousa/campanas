@@ -150,7 +150,6 @@
             
             google.script.run.withSuccessHandler(function(e){
                 idCalles = e;
-                console.log(idCalles);
             }).arrayCallejero();
             
             google.script.run.withSuccessHandler(function(e){
@@ -216,15 +215,18 @@
             var altura = document.getElementById("altura");
             var calle = document.getElementById("calle");
             if(calle.value != "" && altura.value != ""){
+                console.log("HA BUSCADO EL ID DE CUADRA");
                 var cuadra = idDeCuadra(calle.value,altura.value);
+                console.log(cuadra);
                 if(!cuadra){
+                    console.log("ENTRO A !CUADRA");
                     return document.getElementById("id").value = "";
                    }
-                document.getElementById("id").value = idDeCampana(cuadra);
+                console.log("tiene que devolver ID");
+                return document.getElementById("id").value = idDeCampana(cuadra);
             } 
             return document.getElementById("id").value = ""
         }
-
         function seleccionarBuscador(valor){
             var altura = document.getElementById("altura");
             var calle = document.getElementById("calle");
@@ -248,7 +250,7 @@
             }
             id.setAttribute("oninput","buscadorDeCalle(this.value);");
             altura.setAttribute("oninput","buscadorDeID();");
-            calle.oninput = "buscadorDeID(); hacerMayus(this);";
+            calle.setAttribute("oninput","buscadorDeID(); hacerMayus(this);");
             botonid.disabled = false;
             botonaltura.disabled = false;
             cargas.style.display = "block";
@@ -262,73 +264,16 @@
             id.disabled = (!id.disabled);
             altura.disabled = (!altura.disabled);
             calle.disabled = (!calle.disabled);
-            console.log(altura.oninput);
-            console.log(calle.oninput);
-            console.log(id.oninput);
-            console.log(boton.onclick);
-            altura.oninput = "";
-            calle.oninput = "hacerMayus(this);";
-            id.oninput = "";
+            altura.setAttribute("oninput","verificarCalleAltura();");
+            calle.setAttribute("oninput","verificarCalleAltura(); hacerMayus(this);");
+            id.setAttribute("oninput","verificarID(this.value);");
             boton.disabled = true;
 
         }
-        
-        function buscadorDeInformacion(valor){
-
-            /*
-            var altura = document.getElementById("altura");
-            var calle = document.getElementById("calle");
-            var campana = document.getElementById("id");
-            var cuadra = idDeCuadra(calle.value,altura.value);
-            var filtroCuadra = padron.filter(elemento => ((cuadra != "") && elemento[1] == cuadra));
-            var filtroCampana = padron.filter(elemento => ((campana.value != "") && (elemento[0] == campana.value)));
-            var escrito = (campana.value != "");
-            var escritoD = (altura.value != "" && calle.value != "");
-            var escritoDireccion = (valor == "calle" || valor == "altura");
-            var direccion = (filtroCuadra.length > 0);
-            var existe = (filtroCampana.length > 0);
-            console.log(filtroCampana);
-            console.log(filtroCuadra);
-            console.log("escrito");
-            console.log(escrito);
-            console.log("escritoD");
-            console.log(escritoD);
-            console.log("escritoDireccion");
-            console.log(escritoDireccion);
-            console.log("direccion");
-            console.log(direccion);
-            console.log("existe");
-            console.log(existe);
-            console.log("Cuadra");
-            console.log(cuadra);
-            if(!cuadra && escritoDireccion){
-                return document.getElementById("validador").style.display = "none";
-            }
-            else if(direccion && !escrito && escritoDireccion){
-                document.getElementById("validador").style.display = "none";
-                return campana.value = filtroCuadra[0][0];
-            }
-            else if(!direccion && !escrito && !escritoDireccion){
-                return validacion(false,"¡La calle y altura ingresado no está asociado a ninguna campana!","validador");}
-            else if(direccion && !existe && escrito){
-                return verificarID(cuadra,campana.value,filtroCuadra);
-            }
-            else if(!direccion && !existe && escrito && escritoD){
-                return verificarID(cuadra,campana.value,filtroCuadra);
-            }
-            else if(!direccion && existe && !escritoDireccion && !escritoD){
-                calle.value = filtroCampana[0][2];
-                altura.value = filtroCampana[0][3];
-                return document.getElementById("validador").style.display = "none";
-            }
-            else if(direccion && existe && (filtroCuadra[0][1] == filtroCampana[0][1])){
-                verificarID(cuadra,campana.value,filtroCuadra);
-                return document.getElementById("validador").style.display = "none";
-            }
-            */
-        }
-
         function idDeCuadra(calle,altura){
+            console.log("ESTOY HACIENDO ID CUADRA");
+            var alturaR = parseInt(altura);
+            console.log(alturaR);
             const resto = altura % 2;
             var alturaMinima;
             var alturaMaxima;
@@ -340,9 +285,11 @@
             alturaMinima = 4;
             alturaMaxima = 5;
             }
-            for(var i = 0; i < idCalles.length;i++){
-                if( calle == idCalles[i][1] && altura>= idCalles[i][alturaMinima]&& altura <= idCalles[i][alturaMaxima]){    
-                    return idCalles[i][0]; // [Id de la cuadra, Comuna]
+            var dato = idCalles.filter(elemento => elemento[1] == calle);
+            for(var i = 0; i < dato.length;i++){
+                if(alturaR >= dato[i][alturaMinima] && alturaR <= dato[i][alturaMaxima]){  
+                    console.log("ENTRO EN ID DE CUADRA POR TRUE");
+                    return dato[i][0]; // [Id de la cuadra, Comuna]
                 } 
                 
                 
@@ -406,7 +353,38 @@
         } //Se realiza para actualizar el caso correspondiente.
 
         /***************************FUNCIÓN PARA VERIFICACIONES********************************/
-        
+        function verificarID(id){
+            var alturaR = document.getElementById("altura");
+            var calleR = document.getElementById("calle");
+            var cuadra = idDeCuadra(calleR.value,alturaR.value);
+            console.log(cuadra);
+            var dato = padron.filter(elemento => (elemento[0] == id) && (dato[0][1] != cuadra));
+            console.log("*****************//////////ENTRO DESPUÉS DEL FILTRO//////////////////******************");
+            console.log(dato);
+            if(dato.length > 0){
+                validacion(false,"Haz ingresado un id que ya existe","validador");
+            }else{
+                document.getElementById("validador").style.display = "none";
+            }
+        }
+        function verificarCalleAltura(){
+            var alturaR = document.getElementById("altura").value;
+            var calleR = document.getElementById("calle").value;
+            var idR = document.getElementById("id").value;
+            if(calleR != "" && alturaR != ""){
+                var cuadra = idDeCuadra(calleR,alturaR);
+                console.log(cuadra);
+                var existe = padron.filter(elemento => (elemento[1] == cuadra && elemento[0] != idR));
+                console.log(existe);
+                if(existe.length > 0  && cuadra){
+                    validacion(false,"Haz ingresado una calle y altura que ya tiene un id","validador");
+                } else if(!cuadra){
+                    validacion(false,"Altura o calle inválida","validador");
+                } else {
+                document.getElementById("validador").style.display = "none";
+                }
+            }
+        }
         function verificacionDeIdCampana(){
             if(!verificacionDeCampana){
                 alert("LA ALTURA Y CALLE INGRESADO NO SON VÁLIDOS");
@@ -415,7 +393,43 @@
                 document.getElementById("calle").focus();*/
             }
         }
-        function verificarID(cuadra,campana,valor){
+        function verificarCambios(fila,campana,cuadra){
+            if(!decidirCambioId()){return validacion(false,"Haz indicado reposición, y no haz ingresado un nuevo cambio de ID","validador");}
+            decidirRetiro(campana,cuadra);
+            if(decidirReubicacion(fila,campana,cuadra)){return;}
+            else{
+
+            }
+                
+                if(decidirRetiro(campana,cuadra)){
+
+                }
+        }
+        function decidirReubicacion(fila,campana,cuadra){
+            var reubicacion = estadoAccionCargados.filter(elemento => elemento[1] == "Reubicación");
+            if(reubicacion.length > 0){
+                if(fila[0][1] != cuadra){
+                    crearDadasDeBaja(fila,cuadra);
+                    return true;
+                }
+            } 
+            return false;
+
+        }
+        function decidirRetiro(campana,cuadra){
+            var retiro = estadoAccionCargados.filter(elemento => elemento[1] == "Retiro");
+            if(retiro.length > 0){
+                if(!confirm("¿Estás intentando eliminar la campana del id " + campana + "?")){
+                    crearDadasDeBaja(fila,cuadra);
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } return true;
+        }
+
+        /*function verificarID(cuadra,campana,valor){
         console.log("COSAS VIEJAS");
         console.log(viejaCampana);
         console.log(viejaCuadra);
@@ -451,16 +465,25 @@
             return validacion(false,"¡El id, la calle y la altura ingresada no están definidas en el padrón!","validador");
         }
         }
-
+        */
         function enviar(){
             var calle = document.getElementById("calle").value;
             var altura = document.getElementById("altura").value;
             var id = document.getElementById("id").value;
-            verificarID(calle,altura);
-            if(!decidirCambioId()){return validacion(false,"Haz indicado reposición, y no haz ingresado un nuevo cambio de ID","validador");}
+            var idCuadra = idDeCuadra(calle,altura);
+            var padronFiltrado = padron.filter(elemento => elemento[0] == id || elemento[1] == idCuadra);
+            if(padronFiltrado < 1){
+            verificarCambios(padronFiltrado,id,idCuadra);
+            
 
             var estado = sacarJerarquia();
             crearMaster();
+
+            } else {
+                alert("SE HA GENERADO UN ERROR")
+            }
+
+
         }
 
         function crearMaster(){
@@ -478,7 +501,7 @@
         }
 
         function decidirCambioId(){
-            var acciones = estadoAccionCargados.filter(elemento => elemento[1] == "Reposición" );
+            var acciones = estadoAccionCargados.filter(elemento => elemento[1] == "Reposición" || elemento[1] == "Instalación de ID");
             if(acciones.length > 0){
                 if(viejaCampana != "" && viejaCampana != nuevaCampana){
                     filaEditable[0][0] = nuevaCampana;
