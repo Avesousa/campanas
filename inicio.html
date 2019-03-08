@@ -385,19 +385,10 @@
                 }
             }
         }
-        function verificacionDeIdCampana(){
-            if(!verificacionDeCampana){
-                alert("LA ALTURA Y CALLE INGRESADO NO SON VÁLIDOS");
-                /*document.getElementById("altura").value = "";
-                document.getElementById("calle").value = "";
-                document.getElementById("calle").focus();*/
-            }
-        }
         function verificarCambios(fila,campana,cuadra){
             if(!decidirCambioId()){return validacion(false,"Haz indicado reposición, y no haz ingresado un nuevo cambio de ID","validador");}
             if(!decidirRetiro(campana,cuadra)){return;}
             if(decidirReubicacion(fila,campana,cuadra)){return;}
-            decidirInstalacion();
         }
         function decidirReubicacion(fila,campana,cuadra){
             var reubicacion = estadoAccionCargados.filter(elemento => elemento[1] == "Reubicación");
@@ -440,7 +431,9 @@
             var instaladas = estadoAccionCargados.filter(elemento => elemento[1] == "Instalación de campana" || elemento[1] == "Instalación de contenedor"); 
             if(instaladas.length > 0){
                 crearNuevaFila(campana,cuadra);
-                return;
+                return true;
+            } else{
+                return false;
             }
         }
         /*function verificarID(cuadra,campana,valor){
@@ -481,23 +474,23 @@
         }
         */
         function enviar(){
+            extraerEstadoAccion();
+            var estado = sacarJerarquia();
             var calle = document.getElementById("calle").value;
             var altura = document.getElementById("altura").value;
             var id = document.getElementById("id").value;
             var idCuadra = idDeCuadra(calle,altura);
-            var padronFiltrado = padron.filter(elemento => elemento[0] == id || elemento[1] == idCuadra);
-            if(padronFiltrado < 1){
-            verificarCambios(padronFiltrado,id,idCuadra);
-            
-
-            var estado = sacarJerarquia();
-            crearMaster();
-
-            } else {
-                alert("SE HA GENERADO UN ERROR")
+            if(!decidirInstalacion(id,idCuadra)){
+                var padronFiltrado = padron.filter(elemento => elemento[0] == id || elemento[1] == idCuadra);
+                if(padronFiltrado < 1){
+                    verificarCambios(padronFiltrado,id,idCuadra);
+                    var estado = sacarJerarquia();
+                } else {
+                    alert("SE HA GENERADO UN ERROR")
+                }
             }
-
-
+            crearMaster();
+            crearPadron();
         }
 
         function crearMaster(){
@@ -513,6 +506,35 @@
 
             }
         }
+
+
+        function enviarRespuestaMaster() {
+
+const referencia = document.getElementById("referencia").value;
+const calle = document.getElementById("calle").value;
+const altura = document.getElementById("altura").value;
+const campana = document.getElementById("id").value;
+const cuadra = idDeCuadra(calle,altura);
+const hoy =  new Date();
+const fechaContestacion = hoy.getDate() + "/" + (hoy.getMonth()+1)+"/"+hoy.getFullYear();
+const origen = switchDeOrigen();
+const fechaReclamo = segunTipoFecha(origen); // Habria que pensar una función que en caso de que sea sin referencia devuelva la misma fecha de hoy, y para los otros dos casos la fecha del reclamo
+const respuestaMaster = [];
+
+
+extraerEstadoAccion();
+
+for(i=0;i < estadoAccionCargados.length;i++){
+
+    respuestaMaster.push([referencia,cuadra,campana,fechaReclamo,fechaContestacion].concat([estadoAccionCargados[i],origen]));
+
+}
+
+
+    return respuestaMaster;
+
+}
+
 
         function decidirCreaciones(){
             var retiro = contarAccion(estadoAccionCargados.filter(elemento => elemento[1] == "Retiro"));
@@ -589,7 +611,6 @@
         }
         }
         function sacarJerarquia(){
-            extraerEstadoAccion();
             var estadoAccion = estadoAccionCargados.filter(elemento => elemento[1] == "Verificación" );
             if(estadoAccion.length >= 1){
                 for(var i = 1; estados.length > i; i++){
@@ -719,32 +740,6 @@
 
         /* Función para armar el paquete que se va a escribir en el master */
         
-        function enviarRespuestaMaster() {
-
-            const referencia = document.getElementById("referencia").value;
-            const calle = document.getElementById("calle").value;
-            const altura = document.getElementById("altura").value;
-            const campana = document.getElementById("id").value;
-            const cuadra = idDeCuadra(calle,altura);
-            const hoy =  new Date();
-            const fechaContestacion = hoy.getDate() + "/" + (hoy.getMonth()+1)+"/"+hoy.getFullYear();
-            const origen = switchDeOrigen();
-            const fechaReclamo = segunTipoFecha(origen); // Habria que pensar una función que en caso de que sea sin referencia devuelva la misma fecha de hoy, y para los otros dos casos la fecha del reclamo
-            const respuestaMaster = [];
-
-
-            extraerEstadoAccion();
-
-            for(i=0;i < estadoAccionCargados.length;i++){
-
-                respuestaMaster.push([referencia,cuadra,campana,fechaReclamo,fechaContestacion].concat([estadoAccionCargados[i],origen]));
-
-            }
-
-
-                return respuestaMaster;
-
-            }
         preCarga();
 
 </script>
